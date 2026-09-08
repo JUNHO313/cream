@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>장준호 | 그린스마트시티학과 & 소프트웨어 포트폴리오 (202220824)</title>
+  <meta name="description" content="그린스마트시티학과 장준호(학번 202220824, 거주지: 인천)의 포트폴리오 웹사이트입니다. 스마트시티 IoT, 친환경 도시 기술, 데이터 시각화 및 풀스택 웹 개발을 소개합니다.">
+  <meta name="keywords" content="장준호, 202220824, 그린스마트시티학과, 인천, 스마트시티, 포트폴리오, IoT, 웹개발, 도시데이터">
+  <meta name="author" content="장준호 (Jang Junho)">
+  
+  <!-- Open Graph / SEO -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="장준호 | Green Smart City & Software Engineer Portfolio">
+  <meta property="og:description" content="지속 가능한 미래 도시와 스마트 기술을 연결하는 장준호의 포트폴리오입니다.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80">
+  
+  <!-- Google Fonts: Inter, Outfit, Noto Sans KR, Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="cyan">
+
+  <!-- Interactive Background Canvas & Ambient Mesh -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- Custom Cursor Glow -->
+  <div id="cursor-follower"></div>
+
+  <!-- ==================== HEADER / NAVBAR ==================== -->
+  <header id="main-header" class="glass-nav">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" id="brand-logo">
+        <span class="logo-bracket">&lt;</span><span class="logo-name">JH</span><span class="logo-accent">.SMART</span><span class="logo-bracket">/&gt;</span>
+        <span class="live-pulse-dot" title="새로운 스마트시티 프로젝트를 준비 중입니다"></span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" id="nav-menu">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> <span>홈</span></a></li>
+          <li><a href="#about" class="nav-link"><i class="fa-solid fa-city"></i> <span>소개</span></a></li>
+          <li><a href="#skills" class="nav-link"><i class="fa-solid fa-layer-group"></i> <span>스킬셋</span></a></li>
+          <li><a href="#projects" class="nav-link"><i class="fa-solid fa-laptop-code"></i> <span>프로젝트</span></a></li>
+          <li><a href="#timeline" class="nav-link"><i class="fa-solid fa-timeline"></i> <span>학력/경험</span></a></li>
+          <li><a href="#guestbook" class="nav-link"><i class="fa-solid fa-comment-dots"></i> <span>방명록</span></a></li>
+          <li><a href="#contact" class="nav-link"><i class="fa-solid fa-paper-plane"></i> <span>연락처</span></a></li>
+        </ul>
+      </nav>
+
+      <!-- Theme & Action Controls -->
+      <div class="header-actions">
+        <!-- Neon Accent Theme Switcher -->
+        <div class="accent-switcher-dropdown" title="네온 테마 컬러 변경">
+          <button class="accent-toggle-btn" id="accent-toggle-btn" aria-label="테마 색상 변경">
+            <span class="color-dot current-color"></span>
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="accent-palette-menu" id="accent-palette-menu">
+            <span class="palette-title">네온 테마 선택</span>
+            <div class="palette-options">
+              <button class="color-chip active" data-color="cyan" title="사이버 시안" style="--chip-color: #00f0ff;"></button>
+              <button class="color-chip" data-color="emerald" title="에메랄드 그린" style="--chip-color: #10b981;"></button>
+              <button class="color-chip" data-color="purple" title="네온 퍼플" style="--chip-color: #a855f7;"></button>
+              <button class="color-chip" data-color="orange" title="선셋 오렌지" style="--chip-color: #f97316;"></button>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary-sm header-cta">
+          <span>Get in Touch</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle-btn" id="mobile-menu-btn" aria-label="메뉴 열기">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section id="hero" class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-badge animate-fade-in">
+          <span class="badge-icon">🌱</span>
+          <span class="badge-text"><strong>그린스마트시티학과</strong> | <strong>202220824</strong> 장준호</span>
+          <span class="badge-status">인천</span>
+        </div>
+
+        <h1 class="hero-title animate-fade-in delay-1">
+          지속 가능한 미래 도시를 만드는<br>
+          <span class="gradient-text neon-text">그린 스마트시티 개발자</span><br>
+          <span class="typing-text-wrapper">
+            <span class="typing-target" id="typing-text"></span><span class="cursor-blink">|</span>
+          </span>
+        </h1>
+
+        <p class="hero-description animate-fade-in delay-2">
+          도시 인프라와 스마트 IT 기술을 결합하여 친환경적이고 지능적인 솔루션을 구축하는 <strong>장준호</strong>입니다. 
+          인천을 기반으로 데이터 분석, IoT 센서 연동, 직관적인 대시보드 웹 개발을 통해 지속 가능한 스마트시티를 연구합니다.
+        </p>
+
+        <div class="hero-actions animate-fade-in delay-3">
+          <a href="#projects" class="btn btn-glow">
+            <i class="fa-solid fa-rocket"></i>
+            <span>프로젝트 탐색</span>
+          </a>
+          <a href="#guestbook" class="btn btn-glass">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>방명록 남기기</span>
+          </a>
+          <button class="btn btn-icon" id="quick-copy-email" title="이메일 주소 복사 (junho122009@naver.com)">
+            <i class="fa-regular fa-copy"></i>
+            <span class="tooltip">이메일 복사</span>
+          </button>
+        </div>
+
+        <!-- Quick Stats Banner -->
+        <div class="hero-stats-grid animate-fade-in delay-4">
+          <div class="stat-card glass-card">
+            <div class="stat-icon"><i class="fa-solid fa-leaf"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">그린스마트</span>
+              <span class="stat-label">전공 학과</span>
+            </div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">202220824</span>
+              <span class="stat-label">학번</span>
+            </div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="stat-info">
+              <span class="stat-number">인천광역시</span>
+              <span class="stat-label">거주지</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual: 3D-Tilt Developer Profile Card -->
+      <div class="hero-visual animate-fade-in delay-2">
+        <div class="tilt-card-wrapper" id="hero-tilt-card">
+          <div class="hero-profile-card glass-card">
+            <!-- Card Header Banner -->
+            <div class="h-card-banner">
+              <div class="h-card-status">
+                <span class="status-live-dot"></span>
+                <span>OPEN TO WORK &amp; COLLAB</span>
+              </div>
+              <span class="h-card-badge">학번 202220824</span>
+            </div>
+
+            <!-- Avatar & Identity Header -->
+            <div class="h-card-profile-header">
+              <div class="h-card-avatar-wrap">
+                <img id="hero-profile-img" src="" alt="장준호 프로필" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                
+                <!-- Default SVG Avatar -->
+                <svg class="avatar-svg" id="hero-default-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="100" r="95" fill="url(#hero-av-bg)" stroke="var(--primary-neon)" stroke-width="3"/>
+                  <defs>
+                    <linearGradient id="hero-av-bg" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#0f172a" />
+                      <stop offset="1" stop-color="#064e3b" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M40 185C40 145 65 130 100 130C135 130 160 145 160 185C160 195 150 200 100 200C50 200 40 195 40 185Z" fill="#1e293b" stroke="var(--primary-neon)" stroke-width="2"/>
+                  <path d="M85 110V135C85 143 115 143 115 135V110" fill="#fbd38d"/>
+                  <path d="M65 85C65 55 135 55 135 85C135 118 65 118 65 85Z" fill="#fde68a"/>
+                  <path d="M60 75C60 48 80 40 100 40C125 40 140 48 140 75C140 68 132 55 120 54C108 53 100 62 90 56C80 50 68 62 60 75Z" fill="#1e293b"/>
+                  <rect x="72" y="77" width="22" height="15" rx="4" fill="none" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                  <rect x="106" y="77" width="22" height="15" rx="4" fill="none" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                  <line x1="94" y1="84" x2="106" y2="84" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                  <circle cx="83" cy="84" r="3" fill="#0f172a"/>
+                  <circle cx="117" cy="84" r="3" fill="#0f172a"/>
+                  <path d="M92 103C95 107 105 107 108 103" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
+                </svg>
+                <div class="h-avatar-glow"></div>
+              </div>
+              
+              <div class="h-card-name-group">
+                <div class="h-card-name-row">
+                  <h3 class="h-card-name">장준호</h3>
+                  <span class="verified-badge" title="공식 프로필"><i class="fa-solid fa-circle-check"></i></span>
+                </div>
+                <p class="h-card-role"><i class="fa-solid fa-seedling"></i> 그린스마트시티학과</p>
+                <p class="h-card-sub">Smart City &amp; Software Engineer</p>
+              </div>
+            </div>
+
+            <!-- Meta Info Grid -->
+            <div class="h-card-info-grid">
+              <div class="h-info-item">
+                <span class="h-info-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                <div class="h-info-text">
+                  <span class="h-label">학과</span>
+                  <span class="h-val">그린스마트시티학과</span>
+                </div>
+              </div>
+              <div class="h-info-item">
+                <span class="h-info-icon"><i class="fa-solid fa-id-card"></i></span>
+                <div class="h-info-text">
+                  <span class="h-label">학번</span>
+                  <span class="h-val">202220824</span>
+                </div>
+              </div>
+              <div class="h-info-item">
+                <span class="h-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                <div class="h-info-text">
+                  <span class="h-label">거주지</span>
+                  <span class="h-val">인천광역시</span>
+                </div>
+              </div>
+              <div class="h-info-item">
+                <span class="h-info-icon"><i class="fa-solid fa-envelope"></i></span>
+                <div class="h-info-text">
+                  <span class="h-label">이메일</span>
+                  <span class="h-val">junho122009@naver.com</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Domain & Tech Tags -->
+            <div class="h-card-skills">
+              <span class="h-skill-tag"><i class="fa-solid fa-leaf"></i> 그린 스마트시티</span>
+              <span class="h-skill-tag"><i class="fa-solid fa-tower-broadcast"></i> IoT 센서 관제</span>
+              <span class="h-skill-tag"><i class="fa-solid fa-map-location-dot"></i> GIS 데이터 시각화</span>
+              <span class="h-skill-tag"><i class="fa-brands fa-react"></i> 풀스택 웹 개발</span>
+            </div>
+
+            <!-- Card Quick Action Buttons -->
+            <div class="h-card-footer">
+              <a href="#contact" class="btn-card-action primary">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>연락하기</span>
+              </a>
+              <button class="btn-card-action secondary" onclick="copyText('junho122009@naver.com', '이메일 주소가 복사되었습니다!')" title="이메일 복사">
+                <i class="fa-regular fa-copy"></i>
+                <span>이메일 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Scroll Indicator -->
+    <a href="#about" class="scroll-down-indicator" aria-label="아래로 스크롤">
+      <span class="mouse-icon">
+        <span class="wheel"></span>
+      </span>
+      <span class="scroll-text">SCROLL</span>
+    </a>
+  </section>
+
+  <!-- ==================== ABOUT ME SECTION ==================== -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// ABOUT ME</span>
+        <h2 class="section-title">스마트 기술과 도시 환경을 융합하는 인재</h2>
+        <p class="section-desc">그린스마트시티학과에서 도시 공학과 첨단 소프트웨어 기술을 융합하여 기후 위기와 도시 문제의 해답을 찾습니다.</p>
+      </div>
+
+      <div class="about-grid">
+        <!-- Left: Profile Avatar Card (With Interactive Photo Upload / Change Button) -->
+        <div class="about-profile-card glass-card reveal-on-scroll">
+          <div class="profile-avatar-container">
+            <div class="avatar-glow-ring"></div>
+            
+            <div class="custom-avatar-wrapper" id="profile-avatar-box">
+              <!-- Custom User Image if uploaded -->
+              <img id="user-profile-img" src="" alt="장준호 프로필 사진" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              
+              <!-- Default Vector SVG Avatar -->
+              <svg class="avatar-svg" id="default-avatar-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="95" fill="url(#avatar-bg-grad)" stroke="var(--primary-neon)" stroke-width="3" stroke-dasharray="6 4"/>
+                <defs>
+                  <linearGradient id="avatar-bg-grad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#0f172a" />
+                    <stop offset="1" stop-color="#064e3b" />
+                  </linearGradient>
+                  <linearGradient id="hoodie-grad" x1="50" y1="130" x2="150" y2="200" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#1e293b" />
+                    <stop offset="1" stop-color="#090d16" />
+                  </linearGradient>
+                  <linearGradient id="neon-rim" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="var(--primary-neon)" />
+                    <stop offset="1" stop-color="var(--accent-glow)" />
+                  </linearGradient>
+                </defs>
+                <!-- Body / Hoodie -->
+                <path d="M40 185C40 145 65 130 100 130C135 130 160 145 160 185C160 195 150 200 100 200C50 200 40 195 40 185Z" fill="url(#hoodie-grad)" stroke="url(#neon-rim)" stroke-width="2"/>
+                <!-- Neck & Face -->
+                <path d="M85 110V135C85 143 115 143 115 135V110" fill="#fbd38d"/>
+                <path d="M65 85C65 55 135 55 135 85C135 118 65 118 65 85Z" fill="#fde68a"/>
+                <!-- Hair -->
+                <path d="M60 75C60 48 80 40 100 40C125 40 140 48 140 75C140 68 132 55 120 54C108 53 100 62 90 56C80 50 68 62 60 75Z" fill="#1e293b"/>
+                <!-- Eyes & Glasses -->
+                <rect x="72" y="77" width="22" height="15" rx="4" fill="none" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                <rect x="106" y="77" width="22" height="15" rx="4" fill="none" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                <line x1="94" y1="84" x2="106" y2="84" stroke="var(--primary-neon)" stroke-width="2.5"/>
+                <circle cx="83" cy="84" r="3" fill="#0f172a"/>
+                <circle cx="117" cy="84" r="3" fill="#0f172a"/>
+                <!-- Friendly Smile -->
+                <path d="M92 103C95 107 105 107 108 103" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
+                <!-- Green Smart City Leaf Symbol on chest -->
+                <path d="M96 150C96 142 105 140 108 144C108 152 99 154 96 150Z" fill="var(--primary-neon)"/>
+              </svg>
+            </div>
+
+            <!-- Profile Change Camera Button (Instant Photo Upload) -->
+            <label for="avatar-file-input" class="avatar-upload-badge" title="클릭하여 내 사진으로 프로필 변경">
+              <i class="fa-solid fa-camera"></i>
+              <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+            </label>
+          </div>
+
+          <!-- Profile Photo Action Helper -->
+          <div class="avatar-change-actions">
+            <button class="btn-avatar-reset" id="btn-avatar-reset" style="display: none;" onclick="resetToDefaultAvatar()" title="기본 그래픽 아바타로 복원">
+              <i class="fa-solid fa-rotate-left"></i> 기본 아바타로 리셋
+            </button>
+          </div>
+
+          <div class="profile-info-header">
+            <h3 class="profile-name">장준호 <span class="en-name">Jang Junho</span></h3>
+            <p class="profile-role"><i class="fa-solid fa-seedling"></i> 그린스마트시티학과 202220824</p>
+            <div class="profile-tags">
+              <span class="tag">#그린스마트시티학과</span>
+              <span class="tag">#학번_202220824</span>
+              <span class="tag">#인천광역시</span>
+              <span class="tag">#스마트도시_엔지니어</span>
+            </div>
+          </div>
+
+          <div class="profile-meta-list">
+            <div class="meta-item">
+              <span class="meta-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+              <span class="meta-label">전공:</span>
+              <span class="meta-value">그린스마트시티학과</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon"><i class="fa-solid fa-id-card"></i></span>
+              <span class="meta-label">학번:</span>
+              <span class="meta-value">202220824</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <span class="meta-label">거주지:</span>
+              <span class="meta-value">인천광역시 (Incheon)</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon"><i class="fa-solid fa-envelope"></i></span>
+              <span class="meta-label">이메일:</span>
+              <span class="meta-value">junho122009@naver.com</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Core Values & Key Strengths -->
+        <div class="about-details">
+          <div class="quote-card glass-card reveal-on-scroll">
+            <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+            <blockquote class="quote-text">
+              "기술과 환경이 조화를 이루는 스마트 시티를 꿈꿉니다. 데이터와 코드를 통해 도시를 더 친환경적이고 사람이 살기 좋은 공간으로 변화시키겠습니다."
+            </blockquote>
+          </div>
+
+          <div class="strengths-grid">
+            <div class="strength-card glass-card reveal-on-scroll">
+              <div class="strength-icon-box">
+                <i class="fa-solid fa-tree-city"></i>
+              </div>
+              <div class="strength-content">
+                <h4>그린 스마트시티 &amp; 친환경 인프라 이해도</h4>
+                <p>인천 및 수도권 도시 계획, 신재생 에너지 데이터, 탄소 배출 저감 알고리즘 등 지속 가능한 스마트시티 구축을 위한 공학적 기반 지식을 갖추고 있습니다.</p>
+              </div>
+            </div>
+
+            <div class="strength-card glass-card reveal-on-scroll">
+              <div class="strength-icon-box">
+                <i class="fa-solid fa-chart-pie"></i>
+              </div>
+              <div class="strength-content">
+                <h4>도시 공간 데이터(GIS) &amp; 대시보드 시각화</h4>
+                <p>실시간 IoT 센서 데이터와 공간 정보를 웹 대시보드로 시각화하여, 시민과 관리자가 한눈에 도시 현황을 파악할 수 있는 사용자 중심 UI를 개발합니다.</p>
+              </div>
+            </div>
+
+            <div class="strength-card glass-card reveal-on-scroll">
+              <div class="strength-icon-box">
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <div class="strength-content">
+                <h4>현대적인 풀스택 소프트웨어 개발 역량</h4>
+                <p>React, Next.js, Node.js, Python 등 최신 웹 기술 스택을 자유자재로 다루며, 안정적이고 확장성 높은 시스템을 설계합니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS SECTION ==================== -->
+  <section id="skills" class="section skills-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// TECH &amp; DOMAIN STACK</span>
+        <h2 class="section-title">스마트시티 &amp; 개발 역량 스택</h2>
+        <p class="section-desc">그린 스마트시티 전공 지식과 결합된 소프트웨어 엔지니어링 기술입니다.</p>
+      </div>
+
+      <!-- Skills Category Filter Tabs -->
+      <div class="skills-filter-container">
+        <button class="skill-tab-btn active" data-filter="all">
+          <i class="fa-solid fa-border-all"></i> 전체 보기
+        </button>
+        <button class="skill-tab-btn" data-filter="smartcity">
+          <i class="fa-solid fa-city"></i> 스마트시티 &amp; IoT
+        </button>
+        <button class="skill-tab-btn" data-filter="frontend">
+          <i class="fa-brands fa-react"></i> 프론트엔드 &amp; GIS
+        </button>
+        <button class="skill-tab-btn" data-filter="backend">
+          <i class="fa-solid fa-server"></i> 백엔드 &amp; 데이터
+        </button>
+      </div>
+
+      <!-- Skills Grid Container -->
+      <div class="skills-grid" id="skills-grid">
+        
+        <!-- Smart City & IoT -->
+        <div class="skill-card glass-card" data-category="smartcity">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper db">
+              <i class="fa-solid fa-tower-broadcast"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">스마트시티 IoT &amp; 센서 데이터</h3>
+              <span class="skill-level-text">숙련도: 능숙함</span>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 92%;"></div>
+          </div>
+          <p class="skill-desc">환경 센서(미세먼지, 온습도, 전력) 실시간 수집 및 MQTT/WebSocket 기반 스트리밍 처리</p>
+        </div>
+
+        <div class="skill-card glass-card" data-category="smartcity">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper node">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">그린 테크 &amp; 에너지 효율 분석</h3>
+              <span class="skill-level-text">숙련도: 능숙함</span>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 90%;"></div>
+          </div>
+          <p class="skill-desc">빌딩 에너지 관리(BEMS), 탄소 배출 저감 지표 계산 및 친환경 인프라 시뮬레이션 모델링</p>
+        </div>
+
+        <!-- Frontend & GIS -->
+        <div class="skill-card glass-card" data-category="frontend">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper react">
+              <i class="fa-brands fa-react"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">React / Next.js &amp; GIS Map</h3>
+              <span class="skill-level-text">숙련도: 능숙함</span>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 90%;"></div>
+          </div>
+          <p class="skill-desc">Leaflet / Mapbox 기반 도시 지도 시각화, 반응형 웹 컴포넌트 설계 및 대시보드 UI 구현</p>
+        </div>
+
+        <div class="skill-card glass-card" data-category="frontend">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper js">
+              <i class="fa-brands fa-js"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">JavaScript &amp; TypeScript</h3>
+              <span class="skill-level-text">숙련도: 능숙함</span>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 92%;"></div>
+          </div>
+          <p class="skill-desc">ES6+ 문법, 정적 타입 체크로 런타임 에러 방지, 비동기 대용량 데이터 시각화 핸들링</p>
+        </div>
+
+        <!-- Backend & Data -->
+        <div class="skill-card glass-card" data-category="backend">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper python">
+              <i class="fa-brands fa-python"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">Python &amp; 도시 데이터 분석</h3>
+              <span class="skill-level-text">숙련도: 활용 가능</span>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 88%;"></div>
+          </div>
+          <p class="skill-desc">Pandas, NumPy를 활용한 시계열 기후·교통 데이터 전처리, FastAPI 기반 경량 분석 API 서버 구축</p>
+        </div>
+
+        <div class="skill-card glass-card" data-category="backend">
+          <div class="skill-header">
+            <div class="skill-icon-wrapper node">
+              <i class="fa-brands fa-node-js"></i>
+            </div>
+            <div class="skill-title-wrap">
+              <h3 class="skill-name">Node.js &amp; PostgreSQL (PostGIS)</h3>
+              <span class="skill-level-text">숙련도: 활용 가능</span>
+            </div>
+            <span class="skill-percent">84%</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="--percent: 84%;"></div>
+          </div>
+          <p class="skill-desc">공간 데이터베이스(PostGIS) 쿼리 최적화, RESTful API 설계 및 실시간 WebSocket 중계 서버</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS SECTION ==================== -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// SMART CITY &amp; DEV WORKS</span>
+        <h2 class="section-title">그린 스마트시티 프로젝트 쇼케이스</h2>
+        <p class="section-desc">도시 문제 해결과 친환경 지속 가능성을 위해 연구하고 개발한 대표 프로젝트입니다.</p>
+      </div>
+
+      <!-- Project Filter Buttons -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">전체보기</button>
+        <button class="filter-btn" data-filter="smartcity">스마트시티 &amp; IoT</button>
+        <button class="filter-btn" data-filter="green">그린 캠퍼스 &amp; 친환경</button>
+        <button class="filter-btn" data-filter="web">웹 플랫폼</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projects-grid">
+
+        <!-- Project 1: CityPulse -->
+        <div class="project-card glass-card reveal-on-scroll" data-category="smartcity" data-project-id="citypulse">
+          <div class="project-media">
+            <div class="mockup-banner mockup-citypulse">
+              <div class="mockup-header-bar">
+                <span class="mockup-circle red"></span>
+                <span class="mockup-circle yellow"></span>
+                <span class="mockup-circle green"></span>
+                <span class="mockup-url">https://citypulse.smartcity.io/dashboard</span>
+              </div>
+              <div class="mockup-inner-preview">
+                <div class="mockup-sidebar">
+                  <div class="mockup-line w40"></div>
+                  <div class="mockup-line w60"></div>
+                  <div class="mockup-line w50"></div>
+                </div>
+                <div class="mockup-code-area">
+                  <div class="mockup-code-header">
+                    <span class="pulse-status">🌿 Incheon AQI: 28 (Good)</span>
+                  </div>
+                  <div class="mockup-line w80"></div>
+                  <div class="mockup-line w70"></div>
+                  <div class="mockup-line w90"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-category-badge">Smart City &amp; IoT</div>
+          </div>
+
+          <div class="project-content">
+            <h3 class="project-title">CityPulse - 실시간 스마트시티 환경 관제 대시보드</h3>
+            <p class="project-summary">
+              인천 및 도심 전역의 IoT 미세먼지·온습도·전력 소비 센서 데이터를 실시간 GIS 지도상에 시각화하고 이상 기후 경보를 발령하는 관제 시스템입니다.
+            </p>
+            <div class="project-tags">
+              <span class="p-tag">React</span>
+              <span class="p-tag">Leaflet GIS</span>
+              <span class="p-tag">FastAPI</span>
+              <span class="p-tag">MQTT</span>
+              <span class="p-tag">PostgreSQL</span>
+            </div>
+            <div class="project-footer">
+              <button class="btn-project-details" onclick="openProjectModal('citypulse')">
+                <span>상세보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </button>
+              <div class="project-links-quick">
+                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
+                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('CityPulse 관제 대시보드 데모 환경입니다.');"><i class="fa-solid fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: GreenCampus -->
+        <div class="project-card glass-card reveal-on-scroll" data-category="green" data-project-id="greencampus">
+          <div class="project-media">
+            <div class="mockup-banner mockup-smartcampus">
+              <div class="mockup-header-bar">
+                <span class="mockup-circle red"></span>
+                <span class="mockup-circle yellow"></span>
+                <span class="mockup-circle green"></span>
+                <span class="mockup-url">https://greencampus.univ.ac.kr</span>
+              </div>
+              <div class="mockup-inner-preview timetable-preview">
+                <div class="timetable-grid-mini">
+                  <div class="tt-cell active-1">스마트도시공학</div>
+                  <div class="tt-cell"></div>
+                  <div class="tt-cell active-2">그린에너지</div>
+                  <div class="tt-cell"></div>
+                  <div class="tt-cell active-3">도시데이터분석</div>
+                </div>
+              </div>
+            </div>
+            <div class="project-category-badge">Green Campus</div>
+          </div>
+
+          <div class="project-content">
+            <h3 class="project-title">GreenCampus - 스마트 친환경 캠퍼스 올인원 허브</h3>
+            <p class="project-summary">
+              학번(202220824) 기반 강의 시간표 최적화 및 캠퍼스 탄소 발자국 모니터링, 전기 셔틀버스 실시간 도착 정보를 제공하는 웹 플랫폼입니다.
+            </p>
+            <div class="project-tags">
+              <span class="p-tag">Next.js</span>
+              <span class="p-tag">TypeScript</span>
+              <span class="p-tag">Prisma</span>
+              <span class="p-tag">PostgreSQL</span>
+              <span class="p-tag">TailwindCSS</span>
+            </div>
+            <div class="project-footer">
+              <button class="btn-project-details" onclick="openProjectModal('greencampus')">
+                <span>상세보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </button>
+              <div class="project-links-quick">
+                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
+                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('그린캠퍼스 데모 페이지입니다.');"><i class="fa-solid fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: EcoCycle -->
+        <div class="project-card glass-card reveal-on-scroll" data-category="green" data-project-id="ecocycle">
+          <div class="project-media">
+            <div class="mockup-banner mockup-ecocycle">
+              <div class="mockup-header-bar">
+                <span class="mockup-circle red"></span>
+                <span class="mockup-circle yellow"></span>
+                <span class="mockup-circle green"></span>
+                <span class="mockup-url">https://ecocycle-challenge.org</span>
+              </div>
+              <div class="mockup-inner-preview eco-preview">
+                <div class="eco-badge-circle">🌱 Eco Action 100%</div>
+                <div class="eco-progress-mini">
+                  <div class="eco-fill"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-category-badge">Green Tech Challenge</div>
+          </div>
+
+          <div class="project-content">
+            <h3 class="project-title">EcoCycle - 제로웨이스트 실천 &amp; 탄소 중립 플랫폼</h3>
+            <p class="project-summary">
+              시민들이 일상 속 친환경 활동(텀블러 사용, 분리수거)을 인증하고 에코 포인트를 받아 지역 화폐로 환전하는 게이미피케이션 서비스입니다.
+            </p>
+            <div class="project-tags">
+              <span class="p-tag">React</span>
+              <span class="p-tag">Express</span>
+              <span class="p-tag">MySQL</span>
+              <span class="p-tag">AWS S3</span>
+              <span class="p-tag">Docker</span>
+            </div>
+            <div class="project-footer">
+              <button class="btn-project-details" onclick="openProjectModal('ecocycle')">
+                <span>상세보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </button>
+              <div class="project-links-quick">
+                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
+                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('친환경 챌린지 데모입니다.');"><i class="fa-solid fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: DevOrbit -->
+        <div class="project-card glass-card reveal-on-scroll" data-category="web" data-project-id="devorbit">
+          <div class="project-media">
+            <div class="mockup-banner mockup-devorbit">
+              <div class="mockup-header-bar">
+                <span class="mockup-circle red"></span>
+                <span class="mockup-circle yellow"></span>
+                <span class="mockup-circle green"></span>
+                <span class="mockup-url">https://devorbit.app/workspace</span>
+              </div>
+              <div class="mockup-inner-preview">
+                <div class="mockup-sidebar">
+                  <div class="mockup-line w40"></div>
+                  <div class="mockup-line w60"></div>
+                  <div class="mockup-line w50"></div>
+                </div>
+                <div class="mockup-code-area">
+                  <div class="mockup-code-header">
+                    <span class="pulse-status">● Live Syncing</span>
+                  </div>
+                  <div class="mockup-line w80"></div>
+                  <div class="mockup-line w70"></div>
+                  <div class="mockup-line w90"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-category-badge">Web Full-Stack</div>
+          </div>
+
+          <div class="project-content">
+            <h3 class="project-title">DevOrbit - 개발팀 실시간 협업 &amp; 위키 플랫폼</h3>
+            <p class="project-summary">
+              스마트시티 연구팀 및 개발 프로젝트를 위한 실시간 다중 사용자 동시 문서/코드 편집 및 질문 답변 커뮤니티 허브입니다.
+            </p>
+            <div class="project-tags">
+              <span class="p-tag">React</span>
+              <span class="p-tag">Node.js</span>
+              <span class="p-tag">WebSocket</span>
+              <span class="p-tag">MongoDB</span>
+            </div>
+            <div class="project-footer">
+              <button class="btn-project-details" onclick="openProjectModal('devorbit')">
+                <span>상세보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </button>
+              <div class="project-links-quick">
+                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
+                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('DevOrbit 라이브 환경입니다.');"><i class="fa-solid fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TIMELINE & EXPERIENCE ==================== -->
+  <section id="timeline" class="section timeline-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// JOURNEY</span>
+        <h2 class="section-title">학력 및 스마트시티 연구 여정</h2>
+        <p class="section-desc">그린스마트시티학과 입학 후 친환경 도시 기술과 소프트웨어 엔지니어링을 융합해온 성장 기록입니다.</p>
+      </div>
+
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+
+        <!-- Item 1 -->
+        <div class="timeline-item reveal-on-scroll">
+          <div class="timeline-dot"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2022.03 - 현재</div>
+            <h3 class="timeline-title">그린스마트시티학과 입학 (학번 202220824)</h3>
+            <p class="timeline-text">
+              스마트시티 공학, 지속 가능한 도시 인프라, 환경 데이터 분석 및 프로그래밍 기초(Python, C)를 체계적으로 이수하였습니다.
+            </p>
+            <div class="timeline-tags">
+              <span>그린스마트시티학과</span>
+              <span>202220824</span>
+              <span>인천</span>
+              <span>스마트도시공학</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item reveal-on-scroll">
+          <div class="timeline-dot"><i class="fa-solid fa-trophy"></i></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2023.08</div>
+            <h3 class="timeline-title">스마트시티 아이디어톤 &amp; 해커톤 우수상 수상</h3>
+            <p class="timeline-text">
+              '친환경 스마트 캠퍼스 에너지 절감 솔루션'을 기획하고 프로토타입 웹 애플리케이션을 24시간 만에 개발하여 우수상을 수상하였습니다.
+            </p>
+            <div class="timeline-tags">
+              <span>해커톤 우수상</span>
+              <span>스마트에너지</span>
+              <span>웹 프로토타입</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item reveal-on-scroll">
+          <div class="timeline-dot"><i class="fa-solid fa-leaf"></i></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2024.04 - 2024.12</div>
+            <h3 class="timeline-title">도시 공간정보(GIS) &amp; IoT 관제 대시보드 프로젝트</h3>
+            <p class="timeline-text">
+              React와 Leaflet 지도 라이브러리, FastAPI를 연동하여 실시간 대기질 및 전력 소비량을 모니터링할 수 있는 풀스택 관제 시스템(CityPulse)을 개발했습니다.
+            </p>
+            <div class="timeline-tags">
+              <span>React &amp; GIS</span>
+              <span>FastAPI</span>
+              <span>IoT 실시간 데이터</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="timeline-item reveal-on-scroll">
+          <div class="timeline-dot"><i class="fa-solid fa-city"></i></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2025 - 2026.현재</div>
+            <h3 class="timeline-title">차세대 그린 스마트시티 웹 솔루션 연구 및 확장</h3>
+            <p class="timeline-text">
+              인천 및 스마트시티 탄소 중립 실천 게이미피케이션 플랫폼과 분산 센서 데이터 최적화 아키텍처를 심화 연구하며, 실무에 즉시 기여할 수 있는 전문성을 다지고 있습니다.
+            </p>
+            <div class="timeline-tags">
+              <span>현재 진행형</span>
+              <span>탄소 중립 IT</span>
+              <span>풀스택 아키텍처</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INTERACTIVE GUESTBOOK ==================== -->
+  <section id="guestbook" class="section guestbook-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// GUESTBOOK</span>
+        <h2 class="section-title">방명록 &amp; 응원의 한마디</h2>
+        <p class="section-desc">장준호 님의 포트폴리오를 방문해주신 분들의 따뜻한 피드백과 응원 메시지를 남겨주세요!</p>
+      </div>
+
+      <div class="guestbook-layout">
+        <!-- Guestbook Input Form -->
+        <div class="guestbook-form-card glass-card">
+          <div class="card-header-inner">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <h3>새 메시지 남기기</h3>
+          </div>
+
+          <form id="guestbook-form" onsubmit="handleGuestbookSubmit(event)">
+            <!-- Avatar Selection -->
+            <div class="form-group">
+              <label class="form-label">프로필 아바타 선택</label>
+              <div class="avatar-picker" id="avatar-picker">
+                <button type="button" class="avatar-opt active" data-avatar="🌱">🌱</button>
+                <button type="button" class="avatar-opt" data-avatar="🏙️">🏙️</button>
+                <button type="button" class="avatar-opt" data-avatar="🚀">🚀</button>
+                <button type="button" class="avatar-opt" data-avatar="💻">💻</button>
+                <button type="button" class="avatar-opt" data-avatar="⚡">⚡</button>
+                <button type="button" class="avatar-opt" data-avatar="☕">☕</button>
+                <button type="button" class="avatar-opt" data-avatar="🌟">🌟</button>
+                <button type="button" class="avatar-opt" data-avatar="🎯">🎯</button>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label for="gb-author" class="form-label">작성자 이름 / 닉네임</label>
+                <input type="text" id="gb-author" class="form-input" placeholder="예: 동기 이지훈" required maxlength="15">
+              </div>
+              <div class="form-group flex-1">
+                <label for="gb-badge" class="form-label">관계 / 소속</label>
+                <select id="gb-badge" class="form-select">
+                  <option value="그린스마트시티학과 동문">🌱 그린스마트시티학과 동문</option>
+                  <option value="동문/선후배">🎓 동문/선후배</option>
+                  <option value="방문자">👋 일반 방문자</option>
+                  <option value="동료 개발자">💻 동료 개발자</option>
+                  <option value="교수님/멘토">👨‍🏫 교수님/멘토</option>
+                  <option value="리쿠르터">💼 리쿠르터/기업</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="gb-content" class="form-label">메시지 내용</label>
+              <textarea id="gb-content" class="form-textarea" placeholder="장준호 님에게 전하고 싶은 메시지나 피드백을 자유롭게 적어주세요!" required rows="3" maxlength="200"></textarea>
+              <div class="char-counter"><span id="gb-char-count">0</span> / 200자</div>
+            </div>
+
+            <button type="submit" class="btn btn-glow w-full">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>방명록 등록하기</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Guestbook Messages List Display -->
+        <div class="guestbook-list-card glass-card">
+          <div class="card-header-inner space-between">
+            <div class="left-head">
+              <i class="fa-solid fa-comments"></i>
+              <h3>방명록 목록 (<span id="guestbook-count">0</span>)</h3>
+            </div>
+            <button class="btn-text-sm" onclick="resetSampleGuestbook()" title="기본 샘플 데이터 불러오기">
+              <i class="fa-solid fa-rotate-right"></i> 샘플 리셋
+            </button>
+          </div>
+
+          <div class="guestbook-feed" id="guestbook-feed">
+            <!-- Messages inserted dynamically via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-subtitle">// GET IN TOUCH</span>
+        <h2 class="section-title">함께 이야기 나눠보세요</h2>
+        <p class="section-desc">스마트시티 프로젝트, 연구 협업, 인턴십 및 채용 문의 등 언제든 환영합니다.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Contact Information Cards -->
+        <div class="contact-info-column">
+          <div class="contact-card glass-card reveal-on-scroll">
+            <div class="c-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div class="c-detail">
+              <span class="c-label">이메일 (Naver Mail)</span>
+              <span class="c-value">junho122009@naver.com</span>
+            </div>
+            <button class="btn-copy-action" onclick="copyText('junho122009@naver.com', '이메일 주소(junho122009@naver.com)가 복사되었습니다!')" title="이메일 복사">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+
+          <div class="contact-card glass-card reveal-on-scroll">
+            <div class="c-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="c-detail">
+              <span class="c-label">소속 학과 및 학번</span>
+              <span class="c-value">그린스마트시티학과 | 202220824 장준호</span>
+            </div>
+            <button class="btn-copy-action" onclick="copyText('그린스마트시티학과 202220824 장준호', '학번/학과/이름이 복사되었습니다!')" title="정보 복사">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+
+          <div class="contact-card glass-card reveal-on-scroll">
+            <div class="c-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="c-detail">
+              <span class="c-label">거주지 / 활동 지역</span>
+              <span class="c-value">대한민국 인천광역시 (Incheon, KR)</span>
+            </div>
+            <button class="btn-copy-action" onclick="copyText('인천광역시', '거주지가 복사되었습니다!')" title="거주지 복사">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+
+          <div class="contact-card glass-card reveal-on-scroll">
+            <div class="c-icon"><i class="fa-brands fa-github"></i></div>
+            <div class="c-detail">
+              <span class="c-label">깃허브 (GitHub)</span>
+              <span class="c-value">github.com/junho-jang</span>
+            </div>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link-action" title="GitHub 방문">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Quick Message Form -->
+        <div class="contact-form-column glass-card reveal-on-scroll">
+          <form id="contact-form" onsubmit="handleContactSubmit(event)">
+            <h3 class="form-box-title"><i class="fa-solid fa-envelope-open-text"></i> 직접 메시지 보내기</h3>
+            
+            <div class="form-group">
+              <label for="c-name" class="form-label">보내시는 분 성함</label>
+              <input type="text" id="c-name" class="form-input" placeholder="성함을 입력해주세요" required>
+            </div>
+
+            <div class="form-group">
+              <label for="c-email" class="form-label">회신 받으실 이메일</label>
+              <input type="email" id="c-email" class="form-input" placeholder="example@domain.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="c-subject" class="form-label">문의 제목</label>
+              <input type="text" id="c-subject" class="form-input" placeholder="스마트시티 프로젝트 / 연구 협업 문의 등" required>
+            </div>
+
+            <div class="form-group">
+              <label for="c-message" class="form-label">문의 내용</label>
+              <textarea id="c-message" class="form-textarea" rows="4" placeholder="자세한 문의 내용을 남겨주시면 junho122009@naver.com으로 확인 후 빠르게 회신 드리겠습니다." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-glow w-full">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>메시지 전송하기</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="main-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <span class="logo-bracket">&lt;</span><span class="logo-name">JH</span><span class="logo-accent">.SMART</span><span class="logo-bracket">/&gt;</span>
+        </div>
+        <p class="footer-copy">
+          © 2026 장준호 (그린스마트시티학과 202220824 | 인천). All rights reserved. <br>
+          Contact: <a href="mailto:junho122009@naver.com" style="color: var(--primary-neon);">junho122009@naver.com</a>
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#hero">홈</a>
+        <a href="#about">소개</a>
+        <a href="#skills">스킬</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#guestbook">방명록</a>
+        <a href="#contact">연락처</a>
+      </div>
+
+      <div class="footer-socials">
+        <a href="#projects" class="social-icon" title="GitHub" onclick="event.preventDefault(); showToast('GitHub 프로필');"><i class="fa-brands fa-github"></i></a>
+        <a href="#projects" class="social-icon" title="LinkedIn" onclick="event.preventDefault(); showToast('LinkedIn 프로필');"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#projects" class="social-icon" title="Velog / Blog" onclick="event.preventDefault(); showToast('스마트시티 & 개발 블로그로 이동합니다.');"><i class="fa-solid fa-blog"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== PROJECT DETAIL MODAL ==================== -->
+  <div class="modal-overlay" id="project-modal" onclick="closeProjectModalOnOutside(event)">
+    <div class="modal-card glass-card">
+      <button class="modal-close-btn" onclick="closeProjectModal()" aria-label="모달 닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="modal-header">
+        <div class="modal-category" id="modal-category">Smart City &amp; IoT</div>
+        <h2 class="modal-title" id="modal-title">프로젝트 이름</h2>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-banner" id="modal-banner">
+          <!-- Dynamic Mockup Visual Rendered via JS -->
+        </div>
+
+        <div class="modal-details-grid">
+          <div class="modal-info-block">
+            <h4><i class="fa-solid fa-circle-info"></i> 프로젝트 개요</h4>
+            <p id="modal-desc">상세 설명이 들어갑니다.</p>
+          </div>
+
+          <div class="modal-info-block">
+            <h4><i class="fa-solid fa-code"></i> 사용 기술 스택</h4>
+            <div class="modal-tech-list" id="modal-tech-list">
+              <!-- Tech tags -->
+            </div>
+          </div>
+
+          <div class="modal-info-block full-width">
+            <h4><i class="fa-solid fa-list-check"></i> 주요 구현 기능 및 스마트시티 기여</h4>
+            <ul class="modal-feature-list" id="modal-features">
+              <!-- Feature items -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-glass" onclick="closeProjectModal()">닫기</button>
+        <a href="#" id="modal-github-link" target="_blank" class="btn btn-glass" onclick="event.preventDefault(); showToast('GitHub 코드를 확인합니다.');">
+          <i class="fa-brands fa-github"></i> GitHub 보기
+        </a>
+        <a href="#" id="modal-demo-link" target="_blank" class="btn btn-glow" onclick="event.preventDefault(); showToast('라이브 데모 사이트로 이동합니다.');">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> 라이브 데모
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Back to Top Button with SVG Circular Progress -->
+  <button id="back-to-top" class="back-to-top-btn" aria-label="맨 위로 이동" onclick="scrollToTop()">
+    <svg class="progress-ring" width="48" height="48">
+      <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.1)" stroke-width="3" fill="transparent" r="21" cx="24" cy="24"/>
+      <circle id="progress-ring-circle" class="progress-ring-circle" stroke="var(--primary-neon)" stroke-width="3" stroke-dasharray="131.9" stroke-dashoffset="131.9" fill="transparent" r="21" cx="24" cy="24"/>
+    </svg>
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Interactive Toast Notification System -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

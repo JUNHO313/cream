@@ -1,0 +1,12 @@
+# Claude Code
+.claude/
+
+# 별도 저장소 (자체 배포)
+smartcity-team1/
+
+# 개인정보
+학교.txt
+
+# OS
+.DS_Store
+Thumbs.db
