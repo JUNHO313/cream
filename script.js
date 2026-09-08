@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
    1. THEME SWITCHER (네온 악센트 컬러 스위처)
    ========================================================================== */
 function initThemeSwitcher() {
-  const savedTheme = localStorage.getItem('jh_portfolio_theme') || 'cyan';
+  const savedTheme = localStorage.getItem('jh_portfolio_theme') || 'orange';
   setTheme(savedTheme);
 
   const chips = document.querySelectorAll('.color-chip');
