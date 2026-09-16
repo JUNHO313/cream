@@ -595,13 +595,23 @@ const projectDatabase = {
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
+  const countEl = document.getElementById('filter-result-count');
+  const emptyEl = document.getElementById('filter-empty-msg');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      closeProjectModal();
+
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       const filter = btn.getAttribute('data-filter');
+      const visibleCount = [...projectCards].filter(
+        card => filter === 'all' || card.getAttribute('data-category') === filter
+      ).length;
+
+      countEl.textContent = `프로젝트 ${visibleCount}개`;
+      emptyEl.hidden = visibleCount > 0;
 
       projectCards.forEach(card => {
         const category = card.getAttribute('data-category');

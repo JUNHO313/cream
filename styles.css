@@ -1465,11 +1465,31 @@ ul {
   transition: var(--transition-fast);
 }
 
-.filter-btn:hover, .filter-btn.active {
-  background: var(--primary-neon);
+.filter-btn:hover {
   border-color: var(--primary-neon);
+  color: var(--text-primary);
+}
+
+/* 흑백 인쇄에서도 구분되도록 색 외에 굵기·테두리도 함께 바꿉니다 */
+.filter-btn.active {
+  background: var(--primary-neon);
+  border: 2px solid var(--primary-neon);
+  padding: 7px 19px;
+  font-weight: 800;
   color: #060913;
   box-shadow: var(--neon-glow-shadow);
+}
+
+.filter-result-count,
+.filter-empty-msg {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.filter-empty-msg {
+  padding: 32px 0;
+  text-align: center;
 }
 
 .projects-grid {
