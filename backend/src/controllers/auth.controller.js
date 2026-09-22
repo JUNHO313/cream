@@ -13,16 +13,27 @@
  *
  *   서버 쪽에서도 12시간이 지나면 세션을 무효화합니다(services/auth.service.js).
  *   이건 브라우저를 계속 안 끄고 켜둔 채로 방치했을 때를 대비한 이중 안전장치입니다.
+ *
+ * ★ 프론트와 백엔드가 서로 다른 도메인일 때(예: Vercel + Render) 쿠키 속성이 달라집니다.
+ *   브라우저는 SameSite=Lax 쿠키를 "다른 도메인으로 가는" fetch 요청에는 절대 실어주지
+ *   않습니다. 그래서 CORS_ORIGIN 이 특정 주소로 좁혀져 있으면(=다른 도메인 배포로 판단)
+ *   SameSite=None 으로 바꿉니다. 단, SameSite=None 은 Secure(HTTPS 전용)가 반드시
+ *   같이 있어야 브라우저가 받아줍니다(HTTPS가 아니면 아예 쿠키가 저장되지 않습니다) —
+ *   Render·Vercel 모두 기본으로 HTTPS 이므로 실제 배포에서는 문제없습니다.
  */
 import { config } from '../config.js';
 import { authService } from '../services/auth.service.js';
 import { readCookie } from '../middleware/requireAuth.js';
 
 function sessionCookieOptions() {
+  // app.js 의 CORS 판단과 같은 기준을 씁니다: 출처를 좁혔다 = 다른 도메인 배포.
+  const isCrossSiteDeploy = config.corsOrigin !== '*';
+
   return {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: config.admin.secureCookie,
+    sameSite: isCrossSiteDeploy ? 'none' : 'lax',
+    // SameSite=None 은 Secure 없이는 브라우저가 거부하므로 강제로 켭니다.
+    secure: isCrossSiteDeploy ? true : config.admin.secureCookie,
     // maxAge 를 주지 않음 = 세션 쿠키. 절대 여기에 유효기간을 추가하지 마세요.
     path: '/'
   };

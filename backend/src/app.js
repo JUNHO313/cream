@@ -17,15 +17,21 @@ export function createApp() {
 
   // 1) 다른 주소에서 띄운 프론트도 API를 부를 수 있게 허용
   //
-  // ⚠ 여기에 credentials: true 를 추가하지 마세요.
-  //   지금은 모든 출처(origin: true)를 허용하는 대신, 로그인 쿠키가 자동으로
-  //   따라가는 요청은 프론트가 직접 만들지 않습니다(credentials: 'same-origin').
-  //   만약 credentials: true 를 켜면 "아무 사이트에서나 만든 요청이 내 로그인 쿠키를
-  //   들고 API를 부를 수 있게" 허용하는 것과 같아집니다. 필요해지면 origin 을
-  //   특정 주소 목록으로 좁힌 뒤에만 credentials: true 를 켜세요.
+  // 프론트와 백엔드를 서로 다른 도메인에 배포하면(예: 프론트는 Vercel, 백엔드는 Render),
+  // 관리자 로그인 쿠키를 주고받으려면 브라우저에게 "이 출처는 믿을 수 있다"고
+  // 정확히 알려줘야 합니다. 그래서 CORS_ORIGIN 을 특정 주소로 좁혔을 때만
+  // credentials(쿠키 동반)를 허용합니다.
+  //
+  // ⚠ CORS_ORIGIN 을 '*'(전체 허용)로 둔 채 credentials 를 켜면,
+  //   "아무 사이트에서나 만든 요청이 로그인 쿠키를 들고 API를 부를 수 있게" 됩니다.
+  //   그래서 isWildcardOrigin 일 때는 자동으로 credentials 를 끕니다 — 이 조건을
+  //   지우고 항상 true 로 두지 마세요.
+  const isWildcardOrigin = config.corsOrigin === '*';
+
   app.use(
     cors({
-      origin: config.corsOrigin === '*' ? true : config.corsOrigin.split(',').map((s) => s.trim())
+      origin: isWildcardOrigin ? true : config.corsOrigin.split(',').map((s) => s.trim()),
+      credentials: !isWildcardOrigin
     })
   );
 

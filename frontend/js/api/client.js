@@ -33,8 +33,12 @@ async function request(path, { method = 'GET', body, signal } = {}) {
       method,
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
-      // 관리자 로그인 쿠키를 함께 보냅니다. (같은 주소에서 열었을 때의 기본값과 동일)
-      credentials: 'same-origin',
+      // 관리자 로그인 쿠키를 항상 함께 보냅니다.
+      // 프론트와 백엔드가 같은 주소일 때는 'same-origin'과 동작이 같고,
+      // 서로 다른 도메인에 나눠 배포했을 때(예: Vercel + Render)도 쿠키가 전달되도록
+      // 'include'로 둡니다. (백엔드가 그 도메인을 믿는다고 CORS_ORIGIN 에 명시했을 때만
+      // 브라우저가 실제로 쿠키를 실어줍니다 — backend/src/app.js 참고)
+      credentials: 'include',
       signal
     });
   } catch (err) {

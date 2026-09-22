@@ -251,6 +251,71 @@ CORS_ORIGIN=http://localhost:5500 npm start
 
 ---
 
+## 실제로 배포하기 (Vercel + Render)
+
+**Vercel은 정적 파일만 서비스할 수 있고, 지금 백엔드처럼 파일에 저장하고
+서버 메모리에 로그인 상태를 유지하는 방식은 돌릴 수 없습니다.** 그래서
+**프론트(Vercel)와 백엔드(Render)를 따로 배포**합니다. 방명록·관리자 로그인
+등 지금 있는 기능은 전부 그대로 동작합니다.
+
+### 1단계 — 백엔드를 Render에 배포
+
+1. [render.com](https://render.com) 에서 GitHub 계정으로 가입/로그인
+2. **New +** → **Web Service** → 이 저장소(`JUNHO313/cream`) 선택
+3. 아래처럼 설정
+
+   | 항목 | 값 |
+   |---|---|
+   | Root Directory | `backend` |
+   | Build Command | `npm install` |
+   | Start Command | `npm start` |
+   | Instance Type | Free |
+
+4. **Environment** 탭에서 환경변수 추가
+
+   | 이름 | 값 |
+   |---|---|
+   | `ADMIN_PASSWORD` | 원하는 관리자 비밀번호 (반드시 지정 — 안 하면 배포마다 새로 생김) |
+   | `CORS_ORIGIN` | `https://cream-mu.vercel.app` (아래 2단계에서 만들 프론트 주소) |
+
+   `PORT` 는 Render가 자동으로 넣어주므로 따로 설정하지 않습니다.
+
+5. **Create Web Service** → 배포가 끝나면 주소가 생깁니다.
+   서비스 이름을 `cream-backend` 로 만들면 `https://cream-backend.onrender.com` 이 되고,
+   이 값은 `frontend/js/config.js` 에 이미 맞춰 놓았습니다. **다른 이름을 썼다면**
+   그 파일의 `VERCEL_FRONTEND_BACKEND_URL` 상수를 실제 주소로 바꿔주세요.
+
+> **무료 요금제 주의사항**
+> - 15분 동안 요청이 없으면 잠들었다가, 다음 요청에서 다시 깨어납니다(첫 응답이 30~60초 정도 걸릴 수 있음).
+> - 파일 저장(방명록·관리자 페이지에서 고친 내용)은 **서비스가 켜져 있는 동안만** 유지됩니다.
+>   재배포하거나 오래 잠들었다 깨어나면 코드에 들어있는 초기 데이터로 되돌아갑니다.
+>   방문자 반응이 꾸준한 사이트로 키울 계획이라면, 이때는 `backend/src/repositories/README.md` 를 참고해 실제 DB로 바꾸는 걸 권합니다.
+
+### 2단계 — 프론트엔드를 Vercel에 연결
+
+기존에 연결해둔 Vercel 프로젝트(`cream-mu.vercel.app`)의 설정만 바꾸면 됩니다.
+(**Settings → General**)
+
+| 항목 | 값 |
+|---|---|
+| Root Directory | `frontend` |
+| Framework Preset | Other |
+| Build Command | 비워둠 |
+| Output Directory | 비워둠(기본값) |
+
+저장한 뒤 **Deployments** 탭에서 재배포하거나, GitHub에 새로 푸시하면 자동으로 다시 배포됩니다.
+(`frontend/vercel.json` 에 `/admin` 페이지가 정적 호스팅에서도 제대로 열리도록 하는 설정을 넣어뒀습니다.)
+
+### 확인
+
+| 확인할 것 | 방법 |
+|---|---|
+| 백엔드가 떠 있는지 | `https://cream-backend.onrender.com/api/health` 접속 → `{"data":{"status":"ok",...}}` |
+| 프론트가 백엔드를 제대로 찾는지 | `https://cream-mu.vercel.app` 접속 → 프로젝트·스킬이 보이면 정상 |
+| 관리자 로그인 | `https://cream-mu.vercel.app/admin` → 설정한 `ADMIN_PASSWORD` 로 로그인 |
+
+---
+
 ## 참고
 
 - 환경변수 목록: `backend/.env.example`

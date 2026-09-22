@@ -83,6 +83,22 @@ cd backend && npm install && npm start   # → http://localhost:3000
 
 - 저장소: GitHub `JUNHO313/cream`, 브랜치 `main`
 
+### 배포 구조 (2026-09-22 확정)
+
+- **프론트엔드**: Vercel (`https://cream-mu.vercel.app`) — Root Directory `frontend`, 정적 파일만.
+- **백엔드**: Render 무료 웹 서비스 — Root Directory `backend`. 서비스 이름을 `cream-backend` 로 만들면
+  `frontend/js/config.js` 의 `VERCEL_FRONTEND_BACKEND_URL` 값과 맞습니다. 다르게 만들었다면 그 값을 고쳐야 합니다.
+- **왜 나눴나**: Vercel은 서버리스라 파일 저장(JSON)과 서버 메모리 세션(관리자 로그인)을 쓰는
+  지금 백엔드를 그대로 못 돌립니다. Render는 계속 켜져 있는 일반 Node 서버라 지금 코드가 그대로 동작합니다.
+- **CORS_ORIGIN 을 Render 쪽에 정확히 설정해야 함** (`https://cream-mu.vercel.app`). `*` 로 두면
+  로그인 쿠키가 아예 전달되지 않습니다 — `backend/src/app.js` 의 CORS 설정이 출처를 좁혔을 때만
+  `credentials`를 허용하도록 되어 있기 때문입니다(의도된 동작, 되돌리지 마세요).
+- 로그인 쿠키는 프론트·백엔드가 다른 도메인일 때 자동으로 `SameSite=None; Secure` 로 바뀝니다
+  (`backend/src/controllers/auth.controller.js`). 로컬(같은 출처)에서는 기존처럼 `Lax` 그대로입니다.
+- Render 무료 티어는 유휴 시 잠들고, 재시작/재배포 시 로컬 파일(JSON) 데이터가 초기화됩니다.
+  방문자 데이터를 꾸준히 지키려면 `backend/src/repositories/` 를 실제 DB로 바꿀 시점입니다.
+- 자세한 배포 절차는 README.md의 "실제로 배포하기(Vercel + Render)" 참고.
+
 ## 4. 포트폴리오 내용 (현재 사이트 기준)
 
 ### 4-1. 기본 정보
