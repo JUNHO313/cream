@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프로젝트 관리 | 포트폴리오 관리자</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- ==================== 로그인 화면 ==================== -->
+  <div class="login-screen" id="login-screen" hidden>
+    <form class="login-card" id="login-form">
+      <h1 class="login-title">
+        <i class="fa-solid fa-lock"></i>
+        포트폴리오 관리자
+      </h1>
+      <p class="login-desc">프로젝트를 추가하고 수정하려면 비밀번호를 입력하세요.</p>
+
+      <label class="field">
+        <span class="field-label">비밀번호</span>
+        <input type="password" id="login-password" class="input"
+               placeholder="관리자 비밀번호를 입력하세요"
+               autocomplete="current-password" required autofocus>
+      </label>
+
+      <p class="field-error" id="login-error" hidden></p>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        <i class="fa-solid fa-right-to-bracket"></i> 로그인
+      </button>
+
+      <a class="login-back" href="/">
+        <i class="fa-solid fa-arrow-left"></i> 사이트로 돌아가기
+      </a>
+    </form>
+  </div>
+
+  <!-- ==================== 관리 화면 ==================== -->
+  <div class="workspace" id="workspace" hidden>
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <i class="fa-solid fa-folder-tree"></i>
+        <h1>프로젝트 관리</h1>
+      </div>
+      <div class="topbar-right">
+        <a class="btn btn-ghost" href="/" target="_blank" rel="noopener">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> 사이트 보기
+        </a>
+        <button type="button" class="btn btn-ghost" id="btn-logout">
+          <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
+        </button>
+      </div>
+    </header>
+
+    <main class="layout">
+
+      <!-- ---------- 왼쪽: 프로젝트 목록 ---------- -->
+      <aside class="panel list-panel">
+        <div class="panel-head">
+          <h2>프로젝트 <span class="count" id="project-count">0</span></h2>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-new">
+            <i class="fa-solid fa-plus"></i> 새 프로젝트
+          </button>
+        </div>
+
+        <div class="project-list" id="project-list"></div>
+      </aside>
+
+      <!-- ---------- 오른쪽: 입력 폼 ---------- -->
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <h2 id="form-title">새 프로젝트</h2>
+          <span class="form-hint" id="form-hint">내용을 입력하고 저장하세요.</span>
+        </div>
+
+        <form id="project-form" novalidate>
+
+          <!-- 상태: 초안 / 공개 -->
+          <fieldset class="field status-field">
+            <legend class="field-label">저장 상태</legend>
+            <div class="status-options">
+              <label class="status-option">
+                <input type="radio" name="status" value="draft" checked>
+                <span class="status-box">
+                  <strong><i class="fa-regular fa-pen-to-square"></i> 초안</strong>
+                  <small>빈칸이 있어도 저장됩니다. 사이트에는 보이지 않습니다.</small>
+                </span>
+              </label>
+              <label class="status-option">
+                <input type="radio" name="status" value="published">
+                <span class="status-box">
+                  <strong><i class="fa-solid fa-globe"></i> 공개</strong>
+                  <small>참고사항을 뺀 모든 칸이 필요합니다. 사이트에 바로 나갑니다.</small>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span class="field-label">
+              제목 <span class="required-mark" data-required-for="always">필수</span>
+            </span>
+            <input type="text" id="f-title" name="title" class="input" maxlength="120"
+                   placeholder="예: CityPulse - 실시간 스마트시티 환경 관제 대시보드">
+            <span class="field-error" data-error-for="title" hidden></span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">
+              내가 한 역할 <span class="required-mark" data-required-for="published">공개 시 필수</span>
+            </span>
+            <input type="text" id="f-role" name="role" class="input" maxlength="100"
+                   placeholder="예: 프론트엔드 개발 및 지도 시각화 담당">
+            <span class="field-error" data-error-for="role" hidden></span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">
+              설명 <span class="required-mark" data-required-for="published">공개 시 필수</span>
+            </span>
+            <textarea id="f-summary" name="summary" class="input textarea" rows="5" maxlength="600"
+                      placeholder="예: 인천 도심의 IoT 센서 데이터를 실시간 지도에 표시하고, 대기질 이상이 감지되면 경보를 보내는 관제 시스템입니다. 무엇을 만들었고 어떤 문제를 해결했는지 적어주세요."></textarea>
+            <span class="char-counter"><span data-count-for="summary">0</span> / 600자</span>
+            <span class="field-error" data-error-for="summary" hidden></span>
+          </label>
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label">
+                날짜 <span class="required-mark" data-required-for="published">공개 시 필수</span>
+              </span>
+              <input type="text" id="f-period" name="period" class="input" maxlength="60"
+                     placeholder="예: 2024.04 ~ 2024.12">
+              <span class="field-error" data-error-for="period" hidden></span>
+            </label>
+
+            <label class="field">
+              <span class="field-label">
+                참여인원 수 <span class="required-mark" data-required-for="published">공개 시 필수</span>
+              </span>
+              <input type="number" id="f-teamSize" name="teamSize" class="input"
+                     min="1" max="1000" step="1" placeholder="예: 4">
+              <span class="field-error" data-error-for="teamSize" hidden></span>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">
+              참고사항 <span class="optional-mark">선택</span>
+            </span>
+            <textarea id="f-notes" name="notes" class="input textarea" rows="3" maxlength="1000"
+                      placeholder="예: 교내 캡스톤디자인 과제로 진행. 수상 내역이나 링크 등 덧붙일 내용을 적어주세요. 비워두어도 됩니다."></textarea>
+            <span class="char-counter"><span data-count-for="notes">0</span> / 1000자</span>
+            <span class="field-error" data-error-for="notes" hidden></span>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="btn-save">
+              <i class="fa-solid fa-floppy-disk"></i> <span id="btn-save-label">새로 저장</span>
+            </button>
+            <button type="button" class="btn btn-ghost" id="btn-cancel" hidden>
+              <i class="fa-solid fa-xmark"></i> 취소
+            </button>
+            <button type="button" class="btn btn-danger" id="btn-delete" hidden>
+              <i class="fa-regular fa-trash-can"></i> 삭제
+            </button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

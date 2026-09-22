@@ -1,0 +1,612 @@
+/* ==========================================================================
+   관리자 페이지 스타일
+
+   포트폴리오 본 사이트(styles.css)와는 따로 둡니다.
+   관리 화면은 화려함보다 '읽기 쉬움'이 우선이라 목적이 다르기 때문입니다.
+
+   1. 색상 변수
+   2. 기본 틀
+   3. 로그인 화면
+   4. 상단 바 / 레이아웃
+   5. 프로젝트 목록
+   6. 입력 폼
+   7. 버튼
+   8. 토스트 알림
+   9. 반응형
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 색상 변수 — 색을 바꾸려면 여기만 고치면 됩니다.
+   -------------------------------------------------------------------------- */
+:root {
+  --bg: #0f1419;
+  --bg-panel: #161c23;
+  --bg-input: #0d1216;
+  --bg-hover: #1d252e;
+
+  --border: #2a3441;
+  --border-strong: #3a4756;
+
+  --text: #e6edf3;
+  --text-secondary: #9aa8b8;
+  --text-muted: #6b7a8c;
+
+  --primary: #f97316;
+  --primary-hover: #ea680c;
+  --primary-soft: rgba(249, 115, 22, 0.14);
+
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+  --success: #22c55e;
+  --draft: #a78bfa;
+
+  --radius: 10px;
+  --radius-sm: 7px;
+
+  --font: 'Malgun Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   2. 기본 틀
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+h1, h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   3. 로그인 화면
+   -------------------------------------------------------------------------- */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-title {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-title i {
+  color: var(--primary);
+}
+
+.login-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: -8px;
+}
+
+.login-back {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-top: 4px;
+}
+
+.login-back:hover {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   4. 상단 바 / 레이아웃
+   -------------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 24px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-left i {
+  color: var(--primary);
+}
+
+.topbar-right {
+  display: flex;
+  gap: 8px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 20px;
+  padding: 20px 24px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.count {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 7px;
+  margin-left: 4px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.form-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. 프로젝트 목록
+   -------------------------------------------------------------------------- */
+.project-list {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.project-item {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  display: block;
+  transition: background 0.15s;
+}
+
+.project-item:hover {
+  background: var(--bg-hover);
+}
+
+.project-item.active {
+  background: var(--primary-soft);
+  border-left: 3px solid var(--primary);
+  padding-left: 15px;
+}
+
+.project-item-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  /* 제목이 길면 두 줄까지만 보여줍니다. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/*
+  상태 배지.
+  색만으로 구분하지 않도록 아이콘과 글자를 함께 넣습니다.
+  (색약이거나 흑백으로 인쇄해도 구분됩니다.)
+*/
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.badge-published {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--success);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.badge-draft {
+  background: rgba(167, 139, 250, 0.12);
+  color: var(--draft);
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+.badge-warn {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.list-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.list-empty i {
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   6. 입력 폼
+   -------------------------------------------------------------------------- */
+#project-form {
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: none;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.required-mark,
+.optional-mark {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 20px;
+}
+
+.required-mark {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.optional-mark {
+  background: rgba(154, 168, 184, 0.12);
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+/*
+  빈칸 안내 문구(placeholder).
+  옅은 회색으로 보여주고, 글자를 입력하면 브라우저가 알아서 지웁니다.
+*/
+.input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.char-counter {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* 입력이 잘못된 칸은 테두리와 메시지로 함께 알려줍니다. */
+.input.has-error {
+  border-color: var(--danger);
+}
+
+.field-error {
+  font-size: 0.82rem;
+  color: var(--danger);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.field-error::before {
+  content: '\f06a'; /* 느낌표 아이콘 */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+/* ---------- 초안 / 공개 선택 ---------- */
+.status-field {
+  gap: 10px;
+}
+
+.status-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.status-option {
+  cursor: pointer;
+}
+
+.status-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.status-box {
+  display: block;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, background 0.15s;
+  height: 100%;
+}
+
+.status-box strong {
+  display: block;
+  font-size: 0.92rem;
+  margin-bottom: 3px;
+}
+
+.status-box small {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.status-option input:checked + .status-box {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* 키보드로 이동할 때도 어디에 있는지 보이도록 */
+.status-option input:focus-visible + .status-box {
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   7. 버튼
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 17px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:not(:disabled):hover {
+  background: var(--primary-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.btn-ghost:not(:disabled):hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: rgba(239, 68, 68, 0.45);
+  color: var(--danger);
+}
+
+.btn-danger:not(:disabled):hover {
+  background: var(--danger-soft);
+}
+
+.btn-sm {
+  padding: 7px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   8. 토스트 알림
+   -------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 13px 18px;
+  font-size: 0.9rem;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-error {
+  border-left-color: var(--danger);
+}
+
+/* --------------------------------------------------------------------------
+   9. 반응형
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .project-list {
+    max-height: 320px;
+  }
+}
+
+@media (max-width: 560px) {
+  .field-row,
+  .status-options {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 12px 16px;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .toast {
+    max-width: none;
+  }
+}

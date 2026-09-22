@@ -10,6 +10,20 @@ smartcity-team1/
 # 로컬 미리보기 서버
 serve.ps1
 
+# Node.js
+node_modules/
+npm-debug.log*
+
+# 백엔드 환경변수 (실제 값. .env.example 은 커밋합니다)
+.env
+
+# 방문자가 남긴 실제 데이터 (샘플/콘텐츠는 커밋합니다)
+backend/data/contacts.json
+
+# 관리자 비밀번호 해시 (원문은 없지만 공개할 이유가 없습니다)
+backend/data/admin-credentials.json
+backend/data/*.tmp
+
 # OS
 .DS_Store
 Thumbs.db

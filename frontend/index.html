@@ -255,7 +255,7 @@
                 <i class="fa-solid fa-paper-plane"></i>
                 <span>연락하기</span>
               </a>
-              <button class="btn-card-action secondary" onclick="copyText('junho122009@naver.com', '이메일 주소가 복사되었습니다!')" title="이메일 복사">
+              <button type="button" class="btn-card-action secondary" id="quick-copy-email" title="이메일 복사">
                 <i class="fa-regular fa-copy"></i>
                 <span>이메일 복사</span>
               </button>
@@ -333,13 +333,13 @@
             <!-- Profile Change Camera Button (Instant Photo Upload) -->
             <label for="avatar-file-input" class="avatar-upload-badge" title="클릭하여 내 사진으로 프로필 변경">
               <i class="fa-solid fa-camera"></i>
-              <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+              <input type="file" id="avatar-file-input" accept="image/*" style="display: none;">
             </label>
           </div>
 
           <!-- Profile Photo Action Helper -->
           <div class="avatar-change-actions">
-            <button class="btn-avatar-reset" id="btn-avatar-reset" style="display: none;" onclick="resetToDefaultAvatar()" title="기본 그래픽 아바타로 복원">
+            <button type="button" class="btn-avatar-reset" id="btn-avatar-reset" style="display: none;" title="기본 그래픽 아바타로 복원">
               <i class="fa-solid fa-rotate-left"></i> 기본 아바타로 리셋
             </button>
           </div>
@@ -433,131 +433,10 @@
         <p class="section-desc">그린 스마트시티 전공 지식과 결합된 소프트웨어 엔지니어링 기술입니다.</p>
       </div>
 
-      <!-- Skills Category Filter Tabs -->
-      <div class="skills-filter-container">
-        <button class="skill-tab-btn active" data-filter="all">
-          <i class="fa-solid fa-border-all"></i> 전체 보기
-        </button>
-        <button class="skill-tab-btn" data-filter="smartcity">
-          <i class="fa-solid fa-city"></i> 스마트시티 &amp; IoT
-        </button>
-        <button class="skill-tab-btn" data-filter="frontend">
-          <i class="fa-brands fa-react"></i> 프론트엔드 &amp; GIS
-        </button>
-        <button class="skill-tab-btn" data-filter="backend">
-          <i class="fa-solid fa-server"></i> 백엔드 &amp; 데이터
-        </button>
-      </div>
+      <!-- 분류 탭과 스킬 카드는 js/features/skills.js 가 서버 데이터로 그립니다 -->
+      <div class="skills-filter-container" id="skills-filter-container"></div>
 
-      <!-- Skills Grid Container -->
-      <div class="skills-grid" id="skills-grid">
-        
-        <!-- Smart City & IoT -->
-        <div class="skill-card glass-card" data-category="smartcity">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper db">
-              <i class="fa-solid fa-tower-broadcast"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">스마트시티 IoT &amp; 센서 데이터</h3>
-              <span class="skill-level-text">숙련도: 능숙함</span>
-            </div>
-            <span class="skill-percent">92%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 92%;"></div>
-          </div>
-          <p class="skill-desc">환경 센서(미세먼지, 온습도, 전력) 실시간 수집 및 MQTT/WebSocket 기반 스트리밍 처리</p>
-        </div>
-
-        <div class="skill-card glass-card" data-category="smartcity">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper node">
-              <i class="fa-solid fa-leaf"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">그린 테크 &amp; 에너지 효율 분석</h3>
-              <span class="skill-level-text">숙련도: 능숙함</span>
-            </div>
-            <span class="skill-percent">90%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 90%;"></div>
-          </div>
-          <p class="skill-desc">빌딩 에너지 관리(BEMS), 탄소 배출 저감 지표 계산 및 친환경 인프라 시뮬레이션 모델링</p>
-        </div>
-
-        <!-- Frontend & GIS -->
-        <div class="skill-card glass-card" data-category="frontend">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper react">
-              <i class="fa-brands fa-react"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">React / Next.js &amp; GIS Map</h3>
-              <span class="skill-level-text">숙련도: 능숙함</span>
-            </div>
-            <span class="skill-percent">90%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 90%;"></div>
-          </div>
-          <p class="skill-desc">Leaflet / Mapbox 기반 도시 지도 시각화, 반응형 웹 컴포넌트 설계 및 대시보드 UI 구현</p>
-        </div>
-
-        <div class="skill-card glass-card" data-category="frontend">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper js">
-              <i class="fa-brands fa-js"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">JavaScript &amp; TypeScript</h3>
-              <span class="skill-level-text">숙련도: 능숙함</span>
-            </div>
-            <span class="skill-percent">92%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 92%;"></div>
-          </div>
-          <p class="skill-desc">ES6+ 문법, 정적 타입 체크로 런타임 에러 방지, 비동기 대용량 데이터 시각화 핸들링</p>
-        </div>
-
-        <!-- Backend & Data -->
-        <div class="skill-card glass-card" data-category="backend">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper python">
-              <i class="fa-brands fa-python"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">Python &amp; 도시 데이터 분석</h3>
-              <span class="skill-level-text">숙련도: 활용 가능</span>
-            </div>
-            <span class="skill-percent">88%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 88%;"></div>
-          </div>
-          <p class="skill-desc">Pandas, NumPy를 활용한 시계열 기후·교통 데이터 전처리, FastAPI 기반 경량 분석 API 서버 구축</p>
-        </div>
-
-        <div class="skill-card glass-card" data-category="backend">
-          <div class="skill-header">
-            <div class="skill-icon-wrapper node">
-              <i class="fa-brands fa-node-js"></i>
-            </div>
-            <div class="skill-title-wrap">
-              <h3 class="skill-name">Node.js &amp; PostgreSQL (PostGIS)</h3>
-              <span class="skill-level-text">숙련도: 활용 가능</span>
-            </div>
-            <span class="skill-percent">84%</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" style="--percent: 84%;"></div>
-          </div>
-          <p class="skill-desc">공간 데이터베이스(PostGIS) 쿼리 최적화, RESTful API 설계 및 실시간 WebSocket 중계 서버</p>
-        </div>
-
-      </div>
+      <div class="skills-grid" id="skills-grid"></div>
     </div>
   </section>
 
@@ -570,222 +449,14 @@
         <p class="section-desc">도시 문제 해결과 친환경 지속 가능성을 위해 연구하고 개발한 대표 프로젝트입니다.</p>
       </div>
 
-      <!-- Project Filter Buttons -->
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">전체보기</button>
-        <button class="filter-btn" data-filter="smartcity">스마트시티 &amp; IoT</button>
-        <button class="filter-btn" data-filter="green">그린 캠퍼스 &amp; 친환경</button>
-        <button class="filter-btn" data-filter="web">웹 플랫폼</button>
-      </div>
+      <!-- 필터 버튼과 프로젝트 카드는 js/features/projects.js 가 서버 데이터로 그립니다 -->
+      <div class="project-filters" id="project-filters"></div>
 
-      <p class="filter-result-count" id="filter-result-count" aria-live="polite">프로젝트 4개</p>
+      <p class="filter-result-count" id="filter-result-count" aria-live="polite"></p>
 
       <p class="filter-empty-msg" id="filter-empty-msg" hidden>해당 분야의 프로젝트가 아직 없습니다.</p>
 
-      <!-- Projects Grid -->
-      <div class="projects-grid" id="projects-grid">
-
-        <!-- Project 1: CityPulse -->
-        <div class="project-card glass-card reveal-on-scroll" data-category="smartcity" data-project-id="citypulse">
-          <div class="project-media">
-            <div class="mockup-banner mockup-citypulse">
-              <div class="mockup-header-bar">
-                <span class="mockup-circle red"></span>
-                <span class="mockup-circle yellow"></span>
-                <span class="mockup-circle green"></span>
-                <span class="mockup-url">https://citypulse.smartcity.io/dashboard</span>
-              </div>
-              <div class="mockup-inner-preview">
-                <div class="mockup-sidebar">
-                  <div class="mockup-line w40"></div>
-                  <div class="mockup-line w60"></div>
-                  <div class="mockup-line w50"></div>
-                </div>
-                <div class="mockup-code-area">
-                  <div class="mockup-code-header">
-                    <span class="pulse-status">🌿 Incheon AQI: 28 (Good)</span>
-                  </div>
-                  <div class="mockup-line w80"></div>
-                  <div class="mockup-line w70"></div>
-                  <div class="mockup-line w90"></div>
-                </div>
-              </div>
-            </div>
-            <div class="project-category-badge">Smart City &amp; IoT</div>
-          </div>
-
-          <div class="project-content">
-            <h3 class="project-title">CityPulse - 실시간 스마트시티 환경 관제 대시보드</h3>
-            <p class="project-summary">
-              인천 및 도심 전역의 IoT 미세먼지·온습도·전력 소비 센서 데이터를 실시간 GIS 지도상에 시각화하고 이상 기후 경보를 발령하는 관제 시스템입니다.
-            </p>
-            <div class="project-tags">
-              <span class="p-tag">React</span>
-              <span class="p-tag">Leaflet GIS</span>
-              <span class="p-tag">FastAPI</span>
-              <span class="p-tag">MQTT</span>
-              <span class="p-tag">PostgreSQL</span>
-            </div>
-            <div class="project-footer">
-              <button class="btn-project-details" onclick="openProjectModal('citypulse')">
-                <span>상세보기</span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </button>
-              <div class="project-links-quick">
-                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
-                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('CityPulse 관제 대시보드 데모 환경입니다.');"><i class="fa-solid fa-globe"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 2: GreenCampus -->
-        <div class="project-card glass-card reveal-on-scroll" data-category="green" data-project-id="greencampus">
-          <div class="project-media">
-            <div class="mockup-banner mockup-smartcampus">
-              <div class="mockup-header-bar">
-                <span class="mockup-circle red"></span>
-                <span class="mockup-circle yellow"></span>
-                <span class="mockup-circle green"></span>
-                <span class="mockup-url">https://greencampus.univ.ac.kr</span>
-              </div>
-              <div class="mockup-inner-preview timetable-preview">
-                <div class="timetable-grid-mini">
-                  <div class="tt-cell active-1">스마트도시공학</div>
-                  <div class="tt-cell"></div>
-                  <div class="tt-cell active-2">그린에너지</div>
-                  <div class="tt-cell"></div>
-                  <div class="tt-cell active-3">도시데이터분석</div>
-                </div>
-              </div>
-            </div>
-            <div class="project-category-badge">Green Campus</div>
-          </div>
-
-          <div class="project-content">
-            <h3 class="project-title">GreenCampus - 스마트 친환경 캠퍼스 올인원 허브</h3>
-            <p class="project-summary">
-              학번(202220824) 기반 강의 시간표 최적화 및 캠퍼스 탄소 발자국 모니터링, 전기 셔틀버스 실시간 도착 정보를 제공하는 웹 플랫폼입니다.
-            </p>
-            <div class="project-tags">
-              <span class="p-tag">Next.js</span>
-              <span class="p-tag">TypeScript</span>
-              <span class="p-tag">Prisma</span>
-              <span class="p-tag">PostgreSQL</span>
-              <span class="p-tag">TailwindCSS</span>
-            </div>
-            <div class="project-footer">
-              <button class="btn-project-details" onclick="openProjectModal('greencampus')">
-                <span>상세보기</span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </button>
-              <div class="project-links-quick">
-                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
-                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('그린캠퍼스 데모 페이지입니다.');"><i class="fa-solid fa-globe"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: EcoCycle -->
-        <div class="project-card glass-card reveal-on-scroll" data-category="green" data-project-id="ecocycle">
-          <div class="project-media">
-            <div class="mockup-banner mockup-ecocycle">
-              <div class="mockup-header-bar">
-                <span class="mockup-circle red"></span>
-                <span class="mockup-circle yellow"></span>
-                <span class="mockup-circle green"></span>
-                <span class="mockup-url">https://ecocycle-challenge.org</span>
-              </div>
-              <div class="mockup-inner-preview eco-preview">
-                <div class="eco-badge-circle">🌱 Eco Action 100%</div>
-                <div class="eco-progress-mini">
-                  <div class="eco-fill"></div>
-                </div>
-              </div>
-            </div>
-            <div class="project-category-badge">Green Tech Challenge</div>
-          </div>
-
-          <div class="project-content">
-            <h3 class="project-title">EcoCycle - 제로웨이스트 실천 &amp; 탄소 중립 플랫폼</h3>
-            <p class="project-summary">
-              시민들이 일상 속 친환경 활동(텀블러 사용, 분리수거)을 인증하고 에코 포인트를 받아 지역 화폐로 환전하는 게이미피케이션 서비스입니다.
-            </p>
-            <div class="project-tags">
-              <span class="p-tag">React</span>
-              <span class="p-tag">Express</span>
-              <span class="p-tag">MySQL</span>
-              <span class="p-tag">AWS S3</span>
-              <span class="p-tag">Docker</span>
-            </div>
-            <div class="project-footer">
-              <button class="btn-project-details" onclick="openProjectModal('ecocycle')">
-                <span>상세보기</span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </button>
-              <div class="project-links-quick">
-                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
-                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('친환경 챌린지 데모입니다.');"><i class="fa-solid fa-globe"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: DevOrbit -->
-        <div class="project-card glass-card reveal-on-scroll" data-category="web" data-project-id="devorbit">
-          <div class="project-media">
-            <div class="mockup-banner mockup-devorbit">
-              <div class="mockup-header-bar">
-                <span class="mockup-circle red"></span>
-                <span class="mockup-circle yellow"></span>
-                <span class="mockup-circle green"></span>
-                <span class="mockup-url">https://devorbit.app/workspace</span>
-              </div>
-              <div class="mockup-inner-preview">
-                <div class="mockup-sidebar">
-                  <div class="mockup-line w40"></div>
-                  <div class="mockup-line w60"></div>
-                  <div class="mockup-line w50"></div>
-                </div>
-                <div class="mockup-code-area">
-                  <div class="mockup-code-header">
-                    <span class="pulse-status">● Live Syncing</span>
-                  </div>
-                  <div class="mockup-line w80"></div>
-                  <div class="mockup-line w70"></div>
-                  <div class="mockup-line w90"></div>
-                </div>
-              </div>
-            </div>
-            <div class="project-category-badge">Web Full-Stack</div>
-          </div>
-
-          <div class="project-content">
-            <h3 class="project-title">DevOrbit - 개발팀 실시간 협업 &amp; 위키 플랫폼</h3>
-            <p class="project-summary">
-              스마트시티 연구팀 및 개발 프로젝트를 위한 실시간 다중 사용자 동시 문서/코드 편집 및 질문 답변 커뮤니티 허브입니다.
-            </p>
-            <div class="project-tags">
-              <span class="p-tag">React</span>
-              <span class="p-tag">Node.js</span>
-              <span class="p-tag">WebSocket</span>
-              <span class="p-tag">MongoDB</span>
-            </div>
-            <div class="project-footer">
-              <button class="btn-project-details" onclick="openProjectModal('devorbit')">
-                <span>상세보기</span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </button>
-              <div class="project-links-quick">
-                <a href="#projects" class="quick-link" title="GitHub 저장소" onclick="event.preventDefault(); showToast('GitHub 리포지토리 링크입니다.');"><i class="fa-brands fa-github"></i></a>
-                <a href="#projects" class="quick-link" title="라이브 데모" onclick="event.preventDefault(); showToast('DevOrbit 라이브 환경입니다.');"><i class="fa-solid fa-globe"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <div class="projects-grid" id="projects-grid"></div>
     </div>
   </section>
 
@@ -798,79 +469,8 @@
         <p class="section-desc">그린스마트시티학과 입학 후 친환경 도시 기술과 소프트웨어 엔지니어링을 융합해온 성장 기록입니다.</p>
       </div>
 
-      <div class="timeline-container">
-        <div class="timeline-line"></div>
-
-        <!-- Item 1 -->
-        <div class="timeline-item reveal-on-scroll">
-          <div class="timeline-dot"><i class="fa-solid fa-graduation-cap"></i></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2022.03 - 현재</div>
-            <h3 class="timeline-title">그린스마트시티학과 입학 (학번 202220824)</h3>
-            <p class="timeline-text">
-              스마트시티 공학, 지속 가능한 도시 인프라, 환경 데이터 분석 및 프로그래밍 기초(Python, C)를 체계적으로 이수하였습니다.
-            </p>
-            <div class="timeline-tags">
-              <span>그린스마트시티학과</span>
-              <span>202220824</span>
-              <span>인천</span>
-              <span>스마트도시공학</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="timeline-item reveal-on-scroll">
-          <div class="timeline-dot"><i class="fa-solid fa-trophy"></i></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2023.08</div>
-            <h3 class="timeline-title">스마트시티 아이디어톤 &amp; 해커톤 우수상 수상</h3>
-            <p class="timeline-text">
-              '친환경 스마트 캠퍼스 에너지 절감 솔루션'을 기획하고 프로토타입 웹 애플리케이션을 24시간 만에 개발하여 우수상을 수상하였습니다.
-            </p>
-            <div class="timeline-tags">
-              <span>해커톤 우수상</span>
-              <span>스마트에너지</span>
-              <span>웹 프로토타입</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="timeline-item reveal-on-scroll">
-          <div class="timeline-dot"><i class="fa-solid fa-leaf"></i></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2024.04 - 2024.12</div>
-            <h3 class="timeline-title">도시 공간정보(GIS) &amp; IoT 관제 대시보드 프로젝트</h3>
-            <p class="timeline-text">
-              React와 Leaflet 지도 라이브러리, FastAPI를 연동하여 실시간 대기질 및 전력 소비량을 모니터링할 수 있는 풀스택 관제 시스템(CityPulse)을 개발했습니다.
-            </p>
-            <div class="timeline-tags">
-              <span>React &amp; GIS</span>
-              <span>FastAPI</span>
-              <span>IoT 실시간 데이터</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="timeline-item reveal-on-scroll">
-          <div class="timeline-dot"><i class="fa-solid fa-city"></i></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-date"><i class="fa-regular fa-calendar"></i> 2025 - 2026.현재</div>
-            <h3 class="timeline-title">차세대 그린 스마트시티 웹 솔루션 연구 및 확장</h3>
-            <p class="timeline-text">
-              인천 및 스마트시티 탄소 중립 실천 게이미피케이션 플랫폼과 분산 센서 데이터 최적화 아키텍처를 심화 연구하며, 실무에 즉시 기여할 수 있는 전문성을 다지고 있습니다.
-            </p>
-            <div class="timeline-tags">
-              <span>현재 진행형</span>
-              <span>탄소 중립 IT</span>
-              <span>풀스택 아키텍처</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <!-- 여정 항목은 js/features/timeline.js 가 서버 데이터로 그립니다 -->
+      <div class="timeline-container" id="timeline-container"></div>
     </div>
   </section>
 
@@ -891,20 +491,12 @@
             <h3>새 메시지 남기기</h3>
           </div>
 
-          <form id="guestbook-form" onsubmit="handleGuestbookSubmit(event)">
+          <form id="guestbook-form">
             <!-- Avatar Selection -->
             <div class="form-group">
               <label class="form-label">프로필 아바타 선택</label>
-              <div class="avatar-picker" id="avatar-picker">
-                <button type="button" class="avatar-opt active" data-avatar="🌱">🌱</button>
-                <button type="button" class="avatar-opt" data-avatar="🏙️">🏙️</button>
-                <button type="button" class="avatar-opt" data-avatar="🚀">🚀</button>
-                <button type="button" class="avatar-opt" data-avatar="💻">💻</button>
-                <button type="button" class="avatar-opt" data-avatar="⚡">⚡</button>
-                <button type="button" class="avatar-opt" data-avatar="☕">☕</button>
-                <button type="button" class="avatar-opt" data-avatar="🌟">🌟</button>
-                <button type="button" class="avatar-opt" data-avatar="🎯">🎯</button>
-              </div>
+              <!-- 선택지는 js/features/guestbook.js 가 서버 데이터로 그립니다 -->
+              <div class="avatar-picker" id="avatar-picker"></div>
             </div>
 
             <div class="form-row">
@@ -915,12 +507,6 @@
               <div class="form-group flex-1">
                 <label for="gb-badge" class="form-label">관계 / 소속</label>
                 <select id="gb-badge" class="form-select">
-                  <option value="그린스마트시티학과 동문">🌱 그린스마트시티학과 동문</option>
-                  <option value="동문/선후배">🎓 동문/선후배</option>
-                  <option value="방문자">👋 일반 방문자</option>
-                  <option value="동료 개발자">💻 동료 개발자</option>
-                  <option value="교수님/멘토">👨‍🏫 교수님/멘토</option>
-                  <option value="리쿠르터">💼 리쿠르터/기업</option>
                 </select>
               </div>
             </div>
@@ -945,7 +531,7 @@
               <i class="fa-solid fa-comments"></i>
               <h3>방명록 목록 (<span id="guestbook-count">0</span>)</h3>
             </div>
-            <button class="btn-text-sm" onclick="resetSampleGuestbook()" title="기본 샘플 데이터 불러오기">
+            <button type="button" class="btn-text-sm" id="btn-guestbook-reset" title="기본 샘플 데이터 불러오기">
               <i class="fa-solid fa-rotate-right"></i> 샘플 리셋
             </button>
           </div>
@@ -976,7 +562,7 @@
               <span class="c-label">이메일 (Naver Mail)</span>
               <span class="c-value">junho122009@naver.com</span>
             </div>
-            <button class="btn-copy-action" onclick="copyText('junho122009@naver.com', '이메일 주소(junho122009@naver.com)가 복사되었습니다!')" title="이메일 복사">
+            <button type="button" class="btn-copy-action" id="copy-email" title="이메일 복사">
               <i class="fa-regular fa-copy"></i>
             </button>
           </div>
@@ -987,7 +573,7 @@
               <span class="c-label">소속 학과 및 학번</span>
               <span class="c-value">그린스마트시티학과 | 202220824 장준호</span>
             </div>
-            <button class="btn-copy-action" onclick="copyText('그린스마트시티학과 202220824 장준호', '학번/학과/이름이 복사되었습니다!')" title="정보 복사">
+            <button type="button" class="btn-copy-action" id="copy-affiliation" title="정보 복사">
               <i class="fa-regular fa-copy"></i>
             </button>
           </div>
@@ -998,7 +584,7 @@
               <span class="c-label">거주지 / 활동 지역</span>
               <span class="c-value">대한민국 인천광역시 (Incheon, KR)</span>
             </div>
-            <button class="btn-copy-action" onclick="copyText('인천광역시', '거주지가 복사되었습니다!')" title="거주지 복사">
+            <button type="button" class="btn-copy-action" id="copy-location" title="거주지 복사">
               <i class="fa-regular fa-copy"></i>
             </button>
           </div>
@@ -1017,7 +603,7 @@
 
         <!-- Contact Quick Message Form -->
         <div class="contact-form-column glass-card reveal-on-scroll">
-          <form id="contact-form" onsubmit="handleContactSubmit(event)">
+          <form id="contact-form">
             <h3 class="form-box-title"><i class="fa-solid fa-envelope-open-text"></i> 직접 메시지 보내기</h3>
             
             <div class="form-group">
@@ -1073,17 +659,18 @@
       </div>
 
       <div class="footer-socials">
-        <a href="#projects" class="social-icon" title="GitHub" onclick="event.preventDefault(); showToast('GitHub 프로필');"><i class="fa-brands fa-github"></i></a>
-        <a href="#projects" class="social-icon" title="LinkedIn" onclick="event.preventDefault(); showToast('LinkedIn 프로필');"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#projects" class="social-icon" title="Velog / Blog" onclick="event.preventDefault(); showToast('스마트시티 & 개발 블로그로 이동합니다.');"><i class="fa-solid fa-blog"></i></a>
+        <!-- 실제 주소가 정해지면 href 만 채우면 됩니다. 비어 있으면 안내 메시지가 뜹니다. -->
+        <a class="social-icon" title="GitHub" data-note="GitHub 프로필 주소가 아직 등록되지 않았습니다."><i class="fa-brands fa-github"></i></a>
+        <a class="social-icon" title="LinkedIn" data-note="LinkedIn 프로필 주소가 아직 등록되지 않았습니다."><i class="fa-brands fa-linkedin"></i></a>
+        <a class="social-icon" title="Velog / Blog" data-note="블로그 주소가 아직 등록되지 않았습니다."><i class="fa-solid fa-blog"></i></a>
       </div>
     </div>
   </footer>
 
   <!-- ==================== PROJECT DETAIL MODAL ==================== -->
-  <div class="modal-overlay" id="project-modal" onclick="closeProjectModalOnOutside(event)">
+  <div class="modal-overlay" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-card glass-card">
-      <button class="modal-close-btn" onclick="closeProjectModal()" aria-label="모달 닫기">
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="모달 닫기">
         <i class="fa-solid fa-xmark"></i>
       </button>
       
@@ -1101,6 +688,8 @@
           <div class="modal-info-block">
             <h4><i class="fa-solid fa-circle-info"></i> 프로젝트 개요</h4>
             <p id="modal-desc">상세 설명이 들어갑니다.</p>
+            <!-- 역할·기간·참여인원·참고사항 (관리자 페이지에서 입력한 내용) -->
+            <div class="modal-meta" id="modal-meta" hidden></div>
           </div>
 
           <div class="modal-info-block">
@@ -1120,11 +709,12 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-glass" onclick="closeProjectModal()">닫기</button>
-        <a href="#" id="modal-github-link" target="_blank" class="btn btn-glass" onclick="event.preventDefault(); showToast('GitHub 코드를 확인합니다.');">
+        <button type="button" class="btn btn-glass" data-modal-close>닫기</button>
+        <!-- 아래 두 링크의 주소는 프로젝트 데이터(links.repo / links.demo)에서 채워집니다. -->
+        <a id="modal-github-link" class="btn btn-glass">
           <i class="fa-brands fa-github"></i> GitHub 보기
         </a>
-        <a href="#" id="modal-demo-link" target="_blank" class="btn btn-glow" onclick="event.preventDefault(); showToast('라이브 데모 사이트로 이동합니다.');">
+        <a id="modal-demo-link" class="btn btn-glow">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> 라이브 데모
         </a>
       </div>
@@ -1132,7 +722,7 @@
   </div>
 
   <!-- Floating Back to Top Button with SVG Circular Progress -->
-  <button id="back-to-top" class="back-to-top-btn" aria-label="맨 위로 이동" onclick="scrollToTop()">
+  <button type="button" id="back-to-top" class="back-to-top-btn" aria-label="맨 위로 이동">
     <svg class="progress-ring" width="48" height="48">
       <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.1)" stroke-width="3" fill="transparent" r="21" cx="24" cy="24"/>
       <circle id="progress-ring-circle" class="progress-ring-circle" stroke="var(--primary-neon)" stroke-width="3" stroke-dasharray="131.9" stroke-dashoffset="131.9" fill="transparent" r="21" cx="24" cy="24"/>
@@ -1144,6 +734,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- JavaScript -->
-  <script src="script.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

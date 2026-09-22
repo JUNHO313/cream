@@ -1,1 +1,238 @@
-# cream
+# 장준호 포트폴리오
+
+그린스마트시티학과 장준호의 기업 지원용 포트폴리오 웹사이트입니다.
+**프론트엔드(화면)** 와 **백엔드(데이터·API)** 를 분리한 구조입니다.
+
+---
+
+## 실행 방법
+
+필요한 것: **Node.js 20 이상** (`node --version` 으로 확인)
+
+```bash
+cd backend
+npm install      # 처음 한 번만
+npm start
+```
+
+브라우저에서 **http://localhost:3000** 을 엽니다.
+백엔드 서버가 화면 파일까지 함께 제공하므로, 이 명령 하나면 사이트 전체가 뜹니다.
+
+| 주소 | 화면 |
+|---|---|
+| http://localhost:3000 | 포트폴리오 사이트 |
+| http://localhost:3000/admin | **관리자 페이지** (프로젝트 추가·수정) |
+
+| 명령 | 설명 |
+|---|---|
+| `npm start` | 서버 실행 |
+| `npm run dev` | 파일을 고치면 서버가 자동으로 다시 시작 |
+
+> 3000번 포트가 이미 쓰이고 있다면 `PORT=3001 npm start` 처럼 바꿀 수 있습니다.
+
+---
+
+## 폴더 구조
+
+```
+frontend/                화면 (브라우저에서 실행)
+  index.html             페이지 뼈대 — 내용은 비어 있고 JS가 채웁니다
+  styles.css             스타일
+  js/
+    main.js              진입점 — 무엇을 어떤 순서로 켤지만 정합니다
+    config.js            백엔드 주소 설정
+    api/                 서버와 통신 (fetch 는 여기서만 씁니다)
+    ui/                  화면 장식·공통 도구 (서버와 무관)
+    features/            서버 데이터로 그리는 섹션들
+
+backend/                 서버 (Node.js + Express)
+  server.js              포트를 여는 시작점
+  data/                  데이터 (지금은 JSON 파일, 나중엔 DB)
+  src/
+    app.js               미들웨어·라우터 조립
+    config.js            설정값 모음
+    routes/              주소 → 컨트롤러 연결
+    controllers/         요청을 받아 응답으로 바꿈
+    services/            검증·규칙
+    repositories/        ★ 데이터 저장 담당 (DB를 붙일 때 고치는 곳)
+    middleware/          에러 처리
+    utils/               공통 도구
+```
+
+각 계층이 하는 일:
+
+```
+브라우저 → routes → controllers → services → repositories → 데이터
+                                   (규칙)     (저장 방법)
+```
+
+---
+
+## 관리자 페이지 — 프로젝트 관리
+
+**http://localhost:3000/admin**
+
+파일을 직접 고치지 않고 화면에서 프로젝트를 추가·수정할 수 있습니다.
+
+### 로그인
+
+**비밀번호는 코드 어디에도 적혀 있지 않습니다.** 정하는 방법은 두 가지입니다.
+
+**① 서버가 만들어주기 (처음 실행하면 자동)**
+
+`npm start` 를 처음 실행하면 터미널에 이렇게 나옵니다.
+
+```
+  ┌──────────────────────────────────────────────┐
+  │  관리자 비밀번호를 새로 만들었습니다         │
+  └──────────────────────────────────────────────┘
+
+        Kf3p-Rm9t-Xb7q
+
+   이 비밀번호는 지금 한 번만 표시됩니다. 따로 적어두세요.
+```
+
+**이때 적어두세요.** 서버에는 되돌릴 수 없는 형태(해시)로만 저장되어 다시 볼 수 없습니다.
+잊었다면 `backend/data/admin-credentials.json` 을 지우고 서버를 다시 켜면 새로 만들어집니다.
+
+**② 직접 정하기 (권장 — 서버를 자주 껐다 켠다면)**
+
+```bash
+ADMIN_PASSWORD=원하는비밀번호 npm start
+```
+
+이 방법을 쓰면 파일에 아무것도 저장되지 않습니다.
+
+### 보안 관련
+
+- 비밀번호 원문은 **코드·문서·데이터 파일 어디에도 저장되지 않습니다.** (해시만 보관)
+- 프론트엔드(브라우저가 받는 파일)에도 들어가지 않습니다.
+- 세션 쿠키는 `HttpOnly` 라 자바스크립트가 읽을 수 없습니다.
+- 비밀번호를 5번 틀리면 10분간 잠깁니다.
+- 로그인은 12시간 유지되고, **서버를 다시 켜면 풀립니다.**
+- 실제 도메인(HTTPS)에 올린다면 `ADMIN_SECURE_COOKIE=true` 를 켜세요.
+
+### 입력 항목
+
+| 칸 | 초안 저장 | 공개 저장 |
+|---|---|---|
+| 제목 | 필수 | 필수 |
+| 내가 한 역할 | 선택 | **필수** |
+| 설명 | 선택 | **필수** |
+| 날짜 | 선택 | **필수** |
+| 참여인원 수 | 선택 | **필수** |
+| 참고사항 | 선택 | 선택 |
+
+빈칸에는 무엇을 적으면 되는지 옅은 회색 예시가 보이고, 입력을 시작하면 사라집니다.
+
+### 초안과 공개
+
+| | 초안 | 공개 |
+|---|---|---|
+| 빈칸 | 있어도 저장됨 | 참고사항 외 전부 필요 |
+| 사이트에 보이나 | **안 보임** | 보임 (저장 즉시 반영) |
+| 쓰임새 | 쓰다 만 내용 보관 | 완성된 프로젝트 |
+
+제목만은 초안에서도 필요합니다. 목록에서 구분할 수 없기 때문입니다.
+
+### 저장과 수정
+
+- 왼쪽 목록에서 **'새 프로젝트'** → 버튼이 `새로 저장` 으로 바뀝니다.
+- 왼쪽 목록에서 **기존 항목 클릭** → 폼에 내용이 채워지고 버튼이 `수정` 으로 바뀝니다.
+- 수정할 때 관리자 페이지에서 다루지 않는 정보(태그·목업·기술 스택 등)는 **그대로 보존**됩니다.
+
+> 목록에 **'보완 필요'** 가 뜨는 항목은, 공개 상태인데 역할·날짜·참여인원이 비어 있다는 뜻입니다.
+> 관리자 페이지가 생기기 전부터 있던 프로젝트라서 그렇습니다. 눌러서 채워주시면 표시가 사라집니다.
+
+---
+
+## 내용을 고치고 싶을 때
+
+**화면에 보이는 글·프로젝트·스킬을 바꾸려면 → `backend/data/content.json`**
+
+HTML을 건드릴 필요가 없습니다. 이 파일만 고치고 새로고침하면 반영됩니다.
+
+| 바꾸고 싶은 것 | 고칠 위치 |
+|---|---|
+| 이름·학과·이메일 | `content.json` → `profile` |
+| 기술 스택 | `content.json` → `skills` |
+| 프로젝트 | `content.json` → `projects` |
+| 학력·활동 | `content.json` → `timeline` |
+| 방명록 폼 선택지 | `content.json` → `guestbookOptions` |
+| 색상·간격 | `frontend/styles.css` 맨 위 CSS 변수 |
+
+---
+
+## API
+
+| 메서드 | 주소 | 설명 |
+|---|---|---|
+| GET | `/api/health` | 서버 상태 확인 |
+| GET | `/api/content/bootstrap` | 첫 화면에 필요한 내용 한 번에 |
+| GET | `/api/content/profile` | 프로필 |
+| GET | `/api/content/skills` | 기술 스택 |
+| GET | `/api/content/projects` | 프로젝트 목록 |
+| GET | `/api/content/projects/:id` | 프로젝트 한 건 |
+| GET | `/api/content/timeline` | 학력·활동 |
+| GET | `/api/guestbook` | 방명록 목록 |
+| POST | `/api/guestbook` | 방명록 등록 |
+| PATCH | `/api/guestbook/:id/like` | 좋아요 / 취소 |
+| DELETE | `/api/guestbook/:id` | 방명록 삭제 |
+| POST | `/api/guestbook/reset` | 샘플 데이터로 복원 |
+| POST | `/api/contact` | 문의 접수 |
+| POST | `/api/auth/login` | 관리자 로그인 |
+| POST | `/api/auth/logout` | 로그아웃 |
+| GET | `/api/auth/status` | 로그인 상태 확인 |
+| GET | `/api/admin/projects` | 전체 목록 (초안 포함, 로그인 필요) |
+| GET | `/api/admin/projects/:id` | 한 건 불러오기 |
+| POST | `/api/admin/projects` | 새로 저장 |
+| PUT | `/api/admin/projects/:id` | 수정 |
+| DELETE | `/api/admin/projects/:id` | 삭제 |
+
+`/api/admin/*` 는 로그인하지 않으면 전부 401을 돌려줍니다.
+`/api/content/projects` 는 **공개 상태인 것만** 돌려줍니다. (초안은 빠집니다)
+
+응답 형태는 항상 같습니다.
+
+```jsonc
+// 성공
+{ "data": { ... }, "message": "선택적 안내 문구" }
+
+// 실패
+{ "error": { "message": "한국어 안내", "code": "AUTHOR_REQUIRED" } }
+```
+
+---
+
+## 데이터베이스 연결하기
+
+지금은 JSON 파일에 저장합니다. DB로 바꾸는 방법은
+**[backend/src/repositories/README.md](backend/src/repositories/README.md)** 에 단계별로 정리해두었습니다.
+
+요약하면 `backend/src/repositories/` 폴더 안에 새 구현을 만들고
+`DATA_DRIVER` 환경변수를 바꾸는 것이 전부입니다.
+화면 코드와 서비스 코드는 고치지 않습니다.
+
+---
+
+## 프론트엔드를 따로 띄우고 싶을 때
+
+Live Server 같은 도구로 `frontend/` 를 다른 주소에서 열 수도 있습니다.
+그때는 `frontend/index.html` 의 `<head>` 에 백엔드 주소를 알려주세요.
+
+```html
+<meta name="api-base" content="http://localhost:3000/api">
+```
+
+백엔드도 그 주소를 허용하도록 실행합니다.
+
+```bash
+CORS_ORIGIN=http://localhost:5500 npm start
+```
+
+---
+
+## 참고
+
+- 환경변수 목록: `backend/.env.example`
+- 방문자가 보낸 문의는 `backend/data/contacts.json` 에 쌓이며, 개인정보이므로 Git에 올라가지 않습니다.
