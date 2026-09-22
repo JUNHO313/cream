@@ -16,6 +16,13 @@ export function createApp() {
   const app = express();
 
   // 1) 다른 주소에서 띄운 프론트도 API를 부를 수 있게 허용
+  //
+  // ⚠ 여기에 credentials: true 를 추가하지 마세요.
+  //   지금은 모든 출처(origin: true)를 허용하는 대신, 로그인 쿠키가 자동으로
+  //   따라가는 요청은 프론트가 직접 만들지 않습니다(credentials: 'same-origin').
+  //   만약 credentials: true 를 켜면 "아무 사이트에서나 만든 요청이 내 로그인 쿠키를
+  //   들고 API를 부를 수 있게" 허용하는 것과 같아집니다. 필요해지면 origin 을
+  //   특정 주소 목록으로 좁힌 뒤에만 credentials: true 를 켜세요.
   app.use(
     cors({
       origin: config.corsOrigin === '*' ? true : config.corsOrigin.split(',').map((s) => s.trim())

@@ -53,5 +53,11 @@ export const adminApi = {
   async deleteProject(id) {
     const res = await apiClient.delete(`/admin/projects/${encodeURIComponent(id)}`);
     return res.message;
+  },
+
+  /** 중복으로 보이는 두 프로젝트를 하나로 합칩니다. → { project, message } */
+  async mergeProjects(keepId, removeId) {
+    const res = await apiClient.post('/admin/projects/merge', { keepId, removeId });
+    return { project: res.data, message: res.message };
   }
 };

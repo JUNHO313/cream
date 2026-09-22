@@ -37,5 +37,11 @@ export const adminController = {
   async deleteProject(req, res) {
     await projectService.remove(req.params.id);
     res.json({ message: '프로젝트를 삭제했습니다.' });
+  },
+
+  /** 중복으로 보이는 두 프로젝트를 하나로 합칩니다. body: { keepId, removeId } */
+  async mergeProjects(req, res) {
+    const merged = await projectService.merge(req.body?.keepId, req.body?.removeId);
+    res.json({ data: merged, message: '두 프로젝트를 하나로 합쳤습니다.' });
   }
 };

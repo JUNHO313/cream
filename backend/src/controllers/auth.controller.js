@@ -4,6 +4,15 @@
  * 세션 토큰은 응답 본문이 아니라 쿠키로 내려줍니다.
  * httpOnly 쿠키는 자바스크립트가 읽을 수 없어서,
  * 방명록 같은 곳에 악성 스크립트가 들어가도 토큰을 훔쳐갈 수 없습니다.
+ *
+ * ★ 이 쿠키에는 일부러 maxAge(유효기간)를 주지 않습니다.
+ *   유효기간이 없는 쿠키는 "세션 쿠키"가 되어 브라우저 디스크에 저장되지 않고,
+ *   브라우저를 완전히 종료하면 함께 사라집니다. (탭 하나만 닫는 것으로는 안 사라지고,
+ *   같은 브라우저의 다른 창들도 함께 닫아야 사라집니다 — 브라우저의 표준 동작입니다.
+ *   단, "이전 세션 복원" 설정을 켜둔 브라우저는 재시작 후에도 세션 쿠키를 되살릴 수 있습니다.)
+ *
+ *   서버 쪽에서도 12시간이 지나면 세션을 무효화합니다(services/auth.service.js).
+ *   이건 브라우저를 계속 안 끄고 켜둔 채로 방치했을 때를 대비한 이중 안전장치입니다.
  */
 import { config } from '../config.js';
 import { authService } from '../services/auth.service.js';
@@ -14,7 +23,7 @@ function sessionCookieOptions() {
     httpOnly: true,
     sameSite: 'lax',
     secure: config.admin.secureCookie,
-    maxAge: config.admin.sessionTtlMs,
+    // maxAge 를 주지 않음 = 세션 쿠키. 절대 여기에 유효기간을 추가하지 마세요.
     path: '/'
   };
 }
@@ -32,7 +41,9 @@ export const authController = {
   async logout(req, res) {
     authService.logout(readCookie(req, config.admin.cookieName));
 
-    res.clearCookie(config.admin.cookieName, { path: '/' });
+    // 지울 때도 만들 때와 같은 속성(sameSite, secure)을 줍니다.
+    // 브라우저에 따라 속성이 다르면 같은 쿠키로 안 보고 지우지 못하는 경우가 있어서입니다.
+    res.clearCookie(config.admin.cookieName, sessionCookieOptions());
     res.json({ data: { loggedIn: false }, message: '로그아웃되었습니다.' });
   },
 

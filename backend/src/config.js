@@ -71,7 +71,13 @@ export const config = {
      */
     credentialsFile: 'admin-credentials.json',
 
-    /** 로그인 유지 시간 (기본 12시간) */
+    /**
+     * 로그인이 서버 메모리에서 유지되는 최대 시간 (기본 12시간).
+     *
+     * 실제로는 대부분 이보다 먼저 로그아웃됩니다 — 로그인 쿠키가 세션 쿠키라서
+     * 브라우저를 닫으면 바로 사라지기 때문입니다 (controllers/auth.controller.js 참고).
+     * 이 값은 브라우저를 계속 켜둔 채 오래 방치했을 때를 대비한 안전장치입니다.
+     */
     sessionTtlMs: Number(process.env.ADMIN_SESSION_HOURS || 12) * 60 * 60 * 1000,
 
     /** 로그인 상태를 담는 쿠키 이름 */

@@ -74,6 +74,14 @@ function itemTemplate(project) {
        </span>`
     : '';
 
+  // 비슷한 프로젝트가 있으면 어떤 것들과 겹치는지 마우스를 올려 확인할 수 있습니다.
+  const duplicates = project.possibleDuplicates || [];
+  const dupBadge = duplicates.length
+    ? `<span class="badge badge-dup" title="비슷한 프로젝트: ${escapeHTML(duplicates.map((d) => d.title).join(', '))}">
+         <i class="fa-solid fa-clone"></i> 중복 의심
+       </span>`
+    : '';
+
   return `
     <button type="button" class="project-item${project.id === selectedId ? ' active' : ''}"
             data-id="${escapeHTML(project.id)}">
@@ -81,6 +89,7 @@ function itemTemplate(project) {
       <div class="project-item-meta">
         ${statusBadge}
         ${warnBadge}
+        ${dupBadge}
         <span>${escapeHTML(formatDate(project.updatedAt))} 수정</span>
       </div>
     </button>

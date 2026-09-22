@@ -14,6 +14,7 @@
  * 화면 검사는 실수를 막아주는 편의일 뿐, 건너뛰고 요청을 보낼 수 있기 때문입니다.
  */
 import { contentRepository } from '../repositories/index.js';
+import { attachDuplicateInfo } from './duplicateCheck.service.js';
 import { ApiError } from '../utils/ApiError.js';
 
 /** 공개하려면 반드시 채워야 하는 칸 (참고사항 notes 는 제외) */
@@ -132,8 +133,26 @@ function missingFields(project) {
     .map(({ label }) => label);
 }
 
+/**
+ * 두 프로젝트를 통합할 때, 참고사항을 합칩니다.
+ * 한쪽이 비어 있으면 나머지 하나를 그대로 쓰고, 둘 다 있으면 줄바꿈으로 이어붙입니다.
+ * 이미 같은 내용이 들어있다면 중복해서 붙이지 않습니다.
+ */
+function combineNotes(a, b) {
+  const left = (a || '').trim();
+  const right = (b || '').trim();
+
+  if (!right) return left;
+  if (!left) return right;
+  if (left.includes(right)) return left;
+  return `${left}\n${right}`;
+}
+
 export const projectService = {
-  /** 관리자용 — 초안까지 전부, 최근 수정 순 */
+  /**
+   * 관리자용 — 초안까지 전부, 최근 수정 순.
+   * 각 항목에 missingFields(빠진 칸)와 possibleDuplicates(비슷한 다른 프로젝트)를 붙여줍니다.
+   */
   async listForAdmin() {
     const items = await contentRepository.getAllProjects();
 
@@ -142,8 +161,10 @@ export const projectService = {
       missingFields: missingFields(project)
     }));
 
-    withStatus.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
-    return { items: withStatus, total: withStatus.length };
+    const withDuplicates = attachDuplicateInfo(withStatus);
+
+    withDuplicates.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+    return { items: withDuplicates, total: withDuplicates.length };
   },
 
   async getOne(id) {
@@ -174,5 +195,36 @@ export const projectService = {
     if (!removed) {
       throw ApiError.notFound('해당 프로젝트를 찾을 수 없습니다.', 'PROJECT_NOT_FOUND');
     }
+  },
+
+  /**
+   * 중복으로 보이는 두 프로젝트를 하나로 합칩니다.
+   *
+   * 규칙 — keepId(남길 것)를 기준으로, 비어 있는 칸만 removeId(없앨 것)의 값으로 채웁니다.
+   * 이미 채워진 칸은 건드리지 않습니다. 참고사항만 예외로, 둘 다 있으면 이어붙입니다.
+   * 합친 뒤 removeId 는 삭제됩니다.
+   */
+  async merge(keepId, removeId) {
+    if (keepId === removeId) {
+      throw ApiError.badRequest('같은 프로젝트끼리는 통합할 수 없습니다.', 'MERGE_SAME_PROJECT');
+    }
+
+    const keep = await projectService.getOne(keepId);
+    const remove = await projectService.getOne(removeId);
+
+    const merged = {
+      status: keep.status,
+      title: keep.title,
+      role: isBlank(keep.role) ? remove.role : keep.role,
+      summary: isBlank(keep.summary) ? remove.summary : keep.summary,
+      period: isBlank(keep.period) ? remove.period : keep.period,
+      teamSize: isBlank(keep.teamSize) ? remove.teamSize : keep.teamSize,
+      notes: combineNotes(keep.notes, remove.notes)
+    };
+
+    const updated = await contentRepository.updateProject(keepId, merged);
+    await contentRepository.deleteProject(removeId);
+
+    return updated;
   }
 };
