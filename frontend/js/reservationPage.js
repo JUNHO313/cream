@@ -4,7 +4,12 @@
  * visit.html 과 마찬가지로 메인 SPA(index.html)와 별개로 동작하는 독립 페이지라서
  * main.js 파이프라인을 타지 않고, 이 페이지에 필요한 것만 바로 처리합니다.
  *
- * 흐름: 캘린더·시간·입력폼 → [예약하기] → 확인 모달 → [예약 확정하기] → 서버 저장 + 이메일 알림
+ * 흐름: 캘린더·시간·입력폼 → [예약하기] → 확인 모달 → [예약 확정하기] → Formspree 메일 전송(필수) + 서버 저장(되면 좋고, 안 돼도 무방)
+ *
+ * 백엔드(backend/)는 아직 별도 서버(Render 등)에 배포되어 있지 않을 수 있습니다.
+ * 그런 환경(지금의 Vercel 프리뷰 등)에서는 서버 저장 호출이 실패하는데, 이때도
+ * 예약 자체는 "실패"로 처리하지 않습니다 — Formspree 메일 전송이 주된 경로이고,
+ * 서버 저장(backend/data/reservations.json)은 백엔드가 떠 있을 때만 켜지는 보조 기록입니다.
  */
 import { portfolioApi } from './api/portfolio.api.js';
 import { showToast } from './ui/toast.js';
@@ -13,17 +18,14 @@ import { showToast } from './ui/toast.js';
  * Formspree 폼 주소 — 예약 내용을 junho122009@naver.com 으로 메일 전달합니다.
  * (받는 이메일은 Formspree 쪽 폼 설정에 저장되어 있어 여기서는 바꿀 수 없습니다.
  *  주소를 바꾸려면 Formspree 대시보드에서 새 폼을 만들고 이 값만 교체하면 됩니다.)
- *
- * 예약 저장(backend/data/reservations.json)과는 별개의 보조 알림이라,
- * 이 요청이 실패해도 예약 자체는 이미 서버에 저장된 뒤라 방문자에게는 알리지 않고
- * 콘솔에만 남깁니다.
  */
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbgdllyy';
 
-function notifyFormspree(payload) {
-  // Formspree 이 폼은 JSON 본문은 거부하고(Bad form post request),
-  // multipart/form-data 요청만 받아줍니다. FormData 를 쓰면 브라우저가
-  // Content-Type(boundary 포함)을 알아서 채워주므로 직접 지정하지 않습니다.
+/** 예약 접수의 주된 경로. 실패하면 방문자에게 그대로 에러로 보여줍니다. */
+async function sendToFormspree(payload) {
+  // 이 폼은 JSON 본문은 거부하고(Bad form post request), multipart/form-data 요청만
+  // 받아줍니다. FormData 를 쓰면 브라우저가 Content-Type(boundary 포함)을
+  // 알아서 채워주므로 직접 지정하지 않습니다.
   const body = new FormData();
   body.append('name', payload.name);
   body.append('email', payload.email); // Formspree가 이 필드를 회신 주소(Reply-To)로 자동 사용합니다.
@@ -32,13 +34,28 @@ function notifyFormspree(payload) {
   body.append('purpose', payload.purpose);
   body.append('_subject', `[포트폴리오 방문예약] ${payload.name}님 · ${payload.date} ${payload.time}`);
 
-  fetch(FORMSPREE_ENDPOINT, {
+  const res = await fetch(FORMSPREE_ENDPOINT, {
     method: 'POST',
     headers: { Accept: 'application/json' },
     body
-  }).catch((err) => {
-    console.error('[방문 예약] 이메일 알림 전송에 실패했습니다. (예약 자체는 저장되었습니다)', err);
   });
+
+  if (!res.ok) {
+    throw new Error('메일 전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+  }
+}
+
+/** 보조 경로. backend/ 가 배포되어 있지 않거나 연결에 실패해도 조용히 넘어갑니다. */
+async function saveToBackend(payload) {
+  try {
+    await portfolioApi.createReservation(payload);
+  } catch (err) {
+    console.warn(
+      '[방문 예약] 서버 저장은 건너뛰었습니다(백엔드가 배포되어 있지 않거나 연결할 수 없음). ' +
+      '이메일 전송과는 무관합니다.',
+      err
+    );
+  }
 }
 
 /**
@@ -317,9 +334,9 @@ async function handleConfirm() {
   setConfirmBusy(true);
 
   try {
-    const message = await portfolioApi.createReservation(payload);
-    notifyFormspree(payload);
-    showToast(message || '방문 예약 신청이 접수되었습니다.');
+    await sendToFormspree(payload);
+    saveToBackend(payload); // 보조 경로 — 결과를 기다리지 않습니다.
+    showToast('방문 예약 신청이 접수되었습니다. 확인 후 이메일로 회신 드리겠습니다.');
     closeModal();
     resetForm();
   } catch (err) {
