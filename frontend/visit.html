@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오시는 길 | 장준호 포트폴리오</title>
+  <meta name="description" content="장준호 포트폴리오 방문자를 위한 오시는 길 안내 — 지도, 주소, 현재 날씨 정보를 제공합니다.">
+
+  <!-- Google Fonts: Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- 공통 변수(색상·간격)는 styles.css 를 그대로 가져와 씁니다 -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="visit.css">
+</head>
+<body data-theme="orange" class="visit-page">
+
+  <!-- ==================== HEADER ==================== -->
+  <header id="main-header" class="glass-nav">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-bracket">&lt;</span><span class="logo-name">JH</span><span class="logo-accent">.SMART</span><span class="logo-bracket">/&gt;</span>
+      </a>
+      <a href="index.html" class="btn-glass btn visit-back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>포트폴리오로 돌아가기</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ==================== 1. 페이지 타이틀 ==================== -->
+  <main class="visit-main">
+    <section class="section visit-hero">
+      <div class="container">
+        <span class="section-subtitle">// HOW TO VISIT</span>
+        <h1 class="section-title">오시는 길</h1>
+        <p class="section-desc">포트폴리오를 보고 직접 방문해 이야기를 나누고 싶으시다면, 아래 지도와 정보를 확인해주세요.</p>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 지도 & 주소 ==================== -->
+    <section class="section visit-info">
+      <div class="container visit-grid">
+
+        <div class="glass-card visit-map-card">
+          <iframe
+            class="visit-map-frame"
+            title="상명대학교 천안캠퍼스 위치 지도"
+            src="https://maps.google.com/maps?q=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%83%81%EB%AA%85%EB%8C%80%EA%B8%B8%2031&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div class="visit-side-column">
+          <!-- 주소 카드 -->
+          <div class="glass-card visit-address-card">
+            <div class="c-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="visit-address-text">
+              <span class="c-label">주소</span>
+              <span class="c-value">상명대학교 천안캠퍼스</span>
+              <span class="visit-address-detail">충청남도 천안시 동남구 상명대길 31</span>
+            </div>
+          </div>
+
+          <!-- ==================== 3. 날씨 정보 ==================== -->
+          <div class="glass-card visit-weather-card" id="visit-weather-card">
+            <div class="c-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+            <div class="visit-weather-body" id="visit-weather-body">
+              <span class="c-label">현재 날씨 (상명대길 31 기준)</span>
+              <p class="visit-weather-status" id="visit-weather-status">날씨 정보를 불러오는 중...</p>
+            </div>
+          </div>
+
+          <!-- 출처 표기 -->
+          <p class="visit-sources">
+            지도 제공: <a href="https://maps.google.com/maps?q=%EC%83%81%EB%AA%85%EB%8C%80%ED%95%99%EA%B5%90%20%EC%83%81%EB%AA%85%EB%8C%80%EA%B8%B8%2031" target="_blank" rel="noopener noreferrer">Google 지도</a>
+            &nbsp;·&nbsp;
+            날씨 제공: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. 방문 예약 버튼 ==================== -->
+    <section class="section visit-cta">
+      <div class="container text-center">
+        <a href="reservation.html" class="btn btn-glow visit-reserve-btn">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>방문 예약하기</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/visitPage.js"></script>
+</body>
+</html>

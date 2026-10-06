@@ -1,0 +1,148 @@
+/* ==========================================================================
+   오시는 길 페이지 (visit.html) 전용 스타일
+   색상·간격 변수는 styles.css 상단(:root)의 것을 그대로 사용합니다.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 헤더 (뒤로가기 버튼)
+   -------------------------------------------------------------------------- */
+.visit-page .nav-container {
+  justify-content: space-between;
+}
+
+.visit-back-btn {
+  padding: 10px 18px;
+  font-size: 0.88rem;
+}
+
+.visit-main {
+  padding-top: var(--nav-height);
+}
+
+/* --------------------------------------------------------------------------
+   2. 페이지 타이틀
+   -------------------------------------------------------------------------- */
+.visit-hero {
+  padding-bottom: 20px;
+}
+
+.visit-hero .section-desc {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. 지도 & 정보 레이아웃
+   -------------------------------------------------------------------------- */
+.visit-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.visit-map-card {
+  padding: 0;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.visit-map-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 0;
+  display: block;
+}
+
+.visit-side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   4. 주소 / 날씨 카드
+   -------------------------------------------------------------------------- */
+.visit-address-card,
+.visit-weather-card {
+  padding: 22px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.visit-address-text,
+.visit-weather-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.visit-address-detail {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.visit-weather-status {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-pure);
+}
+
+/* 흑백/저시력 환경에서도 상태 구분이 되도록 아이콘 + 텍스트를 함께 씁니다 */
+.visit-weather-status.is-error {
+  color: var(--color-warning);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.visit-weather-detail {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.visit-sources {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.visit-sources a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+.visit-sources a:hover {
+  color: var(--primary-neon);
+}
+
+/* --------------------------------------------------------------------------
+   5. 방문 예약 버튼 영역
+   -------------------------------------------------------------------------- */
+.visit-cta {
+  padding-top: 20px;
+}
+
+.visit-reserve-btn {
+  font-size: 1.05rem;
+  padding: 16px 36px;
+}
+
+/* --------------------------------------------------------------------------
+   6. 모바일 대응
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .visit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .visit-map-card,
+  .visit-map-frame {
+    min-height: 300px;
+  }
+
+  .visit-back-btn span {
+    display: none;
+  }
+}
