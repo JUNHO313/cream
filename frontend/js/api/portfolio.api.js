@@ -53,5 +53,11 @@ export const portfolioApi = {
   async sendContact(form) {
     const res = await apiClient.post('/contact', form);
     return res.message;
+  },
+
+  /** 방문 예약 보내기 → 안내 메시지 */
+  async createReservation(form) {
+    const res = await apiClient.post('/reservations', form);
+    return res.message;
   }
 };

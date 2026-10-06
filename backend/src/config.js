@@ -104,6 +104,8 @@ export const config = {
     contentMaxLength: 200,
     contactNameMaxLength: 50,
     contactSubjectMaxLength: 100,
-    contactMessageMaxLength: 2000
+    contactMessageMaxLength: 2000,
+    reservationNameMaxLength: 50,
+    reservationPurposeMaxLength: 1000
   }
 };

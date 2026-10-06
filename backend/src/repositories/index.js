@@ -17,6 +17,7 @@ import { config } from '../config.js';
 import { contentRepository as jsonContent } from './json/content.repo.js';
 import { guestbookRepository as jsonGuestbook } from './json/guestbook.repo.js';
 import { contactRepository as jsonContact } from './json/contact.repo.js';
+import { reservationRepository as jsonReservation } from './json/reservation.repo.js';
 
 function selectRepositories(driver) {
   switch (driver) {
@@ -24,7 +25,8 @@ function selectRepositories(driver) {
       return {
         content: jsonContent,
         guestbook: jsonGuestbook,
-        contact: jsonContact
+        contact: jsonContact,
+        reservation: jsonReservation
       };
 
     // case 'mysql':
@@ -42,3 +44,4 @@ const repositories = selectRepositories(config.dataDriver);
 export const contentRepository = repositories.content;
 export const guestbookRepository = repositories.guestbook;
 export const contactRepository = repositories.contact;
+export const reservationRepository = repositories.reservation;

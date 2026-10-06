@@ -11,6 +11,7 @@
  *   PATCH  /api/guestbook/:id/like
  *   DELETE /api/guestbook/:id
  *   POST   /api/contact
+ *   POST   /api/reservations
  *
  *   -- 관리자 --
  *   POST   /api/auth/login | logout        로그인 / 로그아웃
@@ -24,6 +25,7 @@ import { Router } from 'express';
 import { contentRouter } from './content.routes.js';
 import { guestbookRouter } from './guestbook.routes.js';
 import { contactRouter } from './contact.routes.js';
+import { reservationRouter } from './reservation.routes.js';
 import { authRouter } from './auth.routes.js';
 import { adminRouter } from './admin.routes.js';
 import { config } from '../config.js';
@@ -44,5 +46,6 @@ apiRouter.get('/health', (req, res) => {
 apiRouter.use('/content', contentRouter);
 apiRouter.use('/guestbook', guestbookRouter);
 apiRouter.use('/contact', contactRouter);
+apiRouter.use('/reservations', reservationRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/admin', adminRouter);

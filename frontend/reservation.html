@@ -11,6 +11,7 @@
 
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="visit.css">
+  <link rel="stylesheet" href="reservation.css">
 </head>
 <body data-theme="orange" class="visit-page">
 
@@ -27,18 +28,137 @@
     </div>
   </header>
 
-  <!-- ==================== 준비 중 안내 ====================
-       내용(예약 폼·일정 선택 등)은 아직 구성하지 않았습니다.
-       다음 단계에서 이어서 작업합니다. -->
   <main class="visit-main">
-    <section class="section text-center">
+
+    <!-- ==================== 1. 페이지 타이틀 ==================== -->
+    <section class="section visit-hero">
       <div class="container">
         <span class="section-subtitle">// VISIT RESERVATION</span>
         <h1 class="section-title">방문 예약</h1>
-        <p class="section-desc">예약 기능은 현재 준비 중입니다. 곧 이곳에서 방문 일정을 예약할 수 있도록 업데이트하겠습니다.</p>
+        <p class="section-desc">원하시는 날짜·시간과 간단한 정보를 남겨주시면, 확인 후 이메일로 회신 드리겠습니다. (평일 13:00 ~ 18:00)</p>
       </div>
+    </section>
+
+    <!-- ==================== 2. 예약 입력 폼 ==================== -->
+    <section class="section reservation-form-section">
+      <form id="reservation-form" class="container reservation-grid" novalidate>
+
+        <!-- ---------- 좌측: 캘린더 + 시간 선택 ---------- -->
+        <div class="glass-card reservation-calendar-card">
+          <div class="reservation-calendar-header">
+            <button type="button" id="cal-prev-month" class="btn-icon" aria-label="이전 달">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <span class="reservation-month-label" id="cal-month-label"></span>
+            <button type="button" id="cal-next-month" class="btn-icon" aria-label="다음 달">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="reservation-weekday-row">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+
+          <div class="reservation-calendar-grid" id="reservation-calendar-grid"></div>
+
+          <p class="reservation-calendar-legend">
+            <span class="legend-dot legend-disabled"></span> 주말·공휴일·지난 날짜는 선택할 수 없습니다.
+          </p>
+
+          <div class="visit-address-card reservation-selected-box">
+            <div class="c-icon"><i class="fa-solid fa-calendar-day"></i></div>
+            <div class="visit-address-text">
+              <span class="c-label">선택한 날짜</span>
+              <span class="reservation-selected-value" id="reservation-selected-date">날짜를 선택해주세요</span>
+            </div>
+          </div>
+
+          <div class="form-group reservation-time-group">
+            <label for="rsv-time" class="form-label">희망 시간</label>
+            <select id="rsv-time" class="form-select" required>
+              <option value="">시간을 선택해주세요 (13:00 ~ 18:00)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ---------- 우측: 입력 폼 ---------- -->
+        <div class="glass-card reservation-info-card">
+          <div class="form-group">
+            <label for="rsv-name" class="form-label">이름 <span class="required-mark">*</span></label>
+            <input type="text" id="rsv-name" class="form-input" placeholder="성함을 입력해주세요" required maxlength="50" autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="rsv-email" class="form-label">답장받을 이메일 <span class="required-mark">*</span></label>
+            <input type="email" id="rsv-email" class="form-input" placeholder="example@domain.com" required autocomplete="email">
+            <p class="field-error-text" id="rsv-email-error" hidden>이메일 형식이 올바르지 않습니다. (예: example@domain.com)</p>
+          </div>
+
+          <div class="form-group">
+            <label for="rsv-purpose" class="form-label">방문 목적 <span class="required-mark">*</span></label>
+            <textarea id="rsv-purpose" class="form-textarea reservation-purpose-textarea" rows="7"
+              placeholder="방문하시려는 목적을 자유롭게 적어주세요. (예: 포트폴리오 관련 채용 상담)" required maxlength="1000"></textarea>
+          </div>
+
+          <label class="reservation-consent-row">
+            <input type="checkbox" id="rsv-consent">
+            <span>입력 정보를 예약 상담 목적으로 운영자에게 전달하는 것에 동의합니다.</span>
+          </label>
+
+          <button type="submit" class="btn btn-glow w-full reservation-submit-btn" id="reservation-submit-btn" disabled>
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>예약하기</span>
+          </button>
+        </div>
+      </form>
     </section>
   </main>
 
+  <!-- ==================== 3. 예약 내용 확인 모달 ==================== -->
+  <div class="modal-overlay" id="reservation-review-modal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+    <div class="modal-card glass-card reservation-review-card">
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 class="modal-title" id="review-modal-title">예약 내용을 확인해주세요</h2>
+      <p class="reservation-review-desc">아래 내용이 맞다면 "예약 확정하기"를 눌러주세요.</p>
+
+      <div class="modal-meta reservation-review-list">
+        <div class="modal-meta-row">
+          <span class="modal-meta-label"><i class="fa-solid fa-calendar-day"></i> 날짜</span>
+          <span class="modal-meta-value" id="review-date"></span>
+        </div>
+        <div class="modal-meta-row">
+          <span class="modal-meta-label"><i class="fa-solid fa-clock"></i> 시간</span>
+          <span class="modal-meta-value" id="review-time"></span>
+        </div>
+        <div class="modal-meta-row">
+          <span class="modal-meta-label"><i class="fa-solid fa-user"></i> 이름</span>
+          <span class="modal-meta-value" id="review-name"></span>
+        </div>
+        <div class="modal-meta-row">
+          <span class="modal-meta-label"><i class="fa-solid fa-envelope"></i> 이메일</span>
+          <span class="modal-meta-value" id="review-email"></span>
+        </div>
+        <div class="modal-meta-row">
+          <span class="modal-meta-label"><i class="fa-solid fa-message"></i> 방문 목적</span>
+          <span class="modal-meta-value" id="review-purpose"></span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-glass" data-modal-close>수정하기</button>
+        <button type="button" class="btn btn-glow" id="reservation-confirm-btn">
+          <i class="fa-solid fa-check"></i> 예약 확정하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification System -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="js/reservationPage.js"></script>
 </body>
 </html>

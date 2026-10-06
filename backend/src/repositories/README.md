@@ -67,6 +67,13 @@ DB로 바꿀 때 서비스 코드까지 전부 뒤져서 고쳐야 합니다.
 | `create({ name, email, subject, message })` | 저장된 객체 |
 | `findAll()` | 문의 배열 (최신순) |
 
+### `reservationRepository`
+
+| 함수 | 반환 |
+|---|---|
+| `create({ name, email, purpose, date, time })` | 저장된 객체 |
+| `findAll()` | 예약 배열 (최신순) |
+
 ---
 
 ## MySQL 로 바꾸는 예시 (3단계)
