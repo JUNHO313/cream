@@ -4,10 +4,42 @@
  * visit.html 과 마찬가지로 메인 SPA(index.html)와 별개로 동작하는 독립 페이지라서
  * main.js 파이프라인을 타지 않고, 이 페이지에 필요한 것만 바로 처리합니다.
  *
- * 흐름: 캘린더·시간·입력폼 → [예약하기] → 확인 모달 → [예약 확정하기] → 서버 저장
+ * 흐름: 캘린더·시간·입력폼 → [예약하기] → 확인 모달 → [예약 확정하기] → 서버 저장 + 이메일 알림
  */
 import { portfolioApi } from './api/portfolio.api.js';
 import { showToast } from './ui/toast.js';
+
+/**
+ * Formspree 폼 주소 — 예약 내용을 junho122009@naver.com 으로 메일 전달합니다.
+ * (받는 이메일은 Formspree 쪽 폼 설정에 저장되어 있어 여기서는 바꿀 수 없습니다.
+ *  주소를 바꾸려면 Formspree 대시보드에서 새 폼을 만들고 이 값만 교체하면 됩니다.)
+ *
+ * 예약 저장(backend/data/reservations.json)과는 별개의 보조 알림이라,
+ * 이 요청이 실패해도 예약 자체는 이미 서버에 저장된 뒤라 방문자에게는 알리지 않고
+ * 콘솔에만 남깁니다.
+ */
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbgdllyy';
+
+function notifyFormspree(payload) {
+  // Formspree 이 폼은 JSON 본문은 거부하고(Bad form post request),
+  // multipart/form-data 요청만 받아줍니다. FormData 를 쓰면 브라우저가
+  // Content-Type(boundary 포함)을 알아서 채워주므로 직접 지정하지 않습니다.
+  const body = new FormData();
+  body.append('name', payload.name);
+  body.append('email', payload.email); // Formspree가 이 필드를 회신 주소(Reply-To)로 자동 사용합니다.
+  body.append('date', payload.date);
+  body.append('time', payload.time);
+  body.append('purpose', payload.purpose);
+  body.append('_subject', `[포트폴리오 방문예약] ${payload.name}님 · ${payload.date} ${payload.time}`);
+
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body
+  }).catch((err) => {
+    console.error('[방문 예약] 이메일 알림 전송에 실패했습니다. (예약 자체는 저장되었습니다)', err);
+  });
+}
 
 /**
  * 대한민국 공휴일 (2026년).
@@ -286,6 +318,7 @@ async function handleConfirm() {
 
   try {
     const message = await portfolioApi.createReservation(payload);
+    notifyFormspree(payload);
     showToast(message || '방문 예약 신청이 접수되었습니다.');
     closeModal();
     resetForm();
