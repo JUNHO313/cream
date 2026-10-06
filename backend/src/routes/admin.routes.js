@@ -7,6 +7,9 @@
  *   PUT    /api/admin/projects/:id    수정
  *   DELETE /api/admin/projects/:id    삭제
  *   POST   /api/admin/projects/merge  중복된 두 프로젝트 통합 { keepId, removeId }
+ *
+ *   GET    /api/admin/reservations            방문 예약 목록 (방문 날짜·시간 순)
+ *   PATCH  /api/admin/reservations/:id/status  처리 상태 변경 { status }
  */
 import { Router } from 'express';
 import { adminController } from '../controllers/admin.controller.js';
@@ -25,3 +28,6 @@ adminRouter.get('/projects/:id', asyncHandler(adminController.getProject));
 adminRouter.post('/projects', asyncHandler(adminController.createProject));
 adminRouter.put('/projects/:id', asyncHandler(adminController.updateProject));
 adminRouter.delete('/projects/:id', asyncHandler(adminController.deleteProject));
+
+adminRouter.get('/reservations', asyncHandler(adminController.listReservations));
+adminRouter.patch('/reservations/:id/status', asyncHandler(adminController.updateReservationStatus));

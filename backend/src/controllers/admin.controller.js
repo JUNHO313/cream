@@ -2,6 +2,14 @@
  * 26. 관리자 프로젝트 컨트롤러
  */
 import { projectService } from '../services/project.service.js';
+import { reservationService } from '../services/reservation.service.js';
+
+const STATUS_LABELS = {
+  received: '접수',
+  confirmed: '확정',
+  change_requested: '변경 요청',
+  cancelled: '취소'
+};
 
 export const adminController = {
   async listProjects(req, res) {
@@ -43,5 +51,17 @@ export const adminController = {
   async mergeProjects(req, res) {
     const merged = await projectService.merge(req.body?.keepId, req.body?.removeId);
     res.json({ data: merged, message: '두 프로젝트를 하나로 합쳤습니다.' });
+  },
+
+  async listReservations(req, res) {
+    res.json({ data: await reservationService.listForAdmin() });
+  },
+
+  async updateReservationStatus(req, res) {
+    const reservation = await reservationService.updateStatus(req.params.id, req.body?.status);
+    res.json({
+      data: reservation,
+      message: `처리 상태를 "${STATUS_LABELS[reservation.status]}"(으)로 바꿨습니다.`
+    });
   }
 };

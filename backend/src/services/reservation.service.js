@@ -16,6 +16,9 @@ import { config } from '../config.js';
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DATE_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
 
+/** 처리 상태 (관리자 페이지 "예약 관리"에서 바꿉니다) */
+const STATUSES = ['received', 'confirmed', 'change_requested', 'cancelled'];
+
 /** 13:00 ~ 18:00, 30분 단위 (화면의 시간 드롭다운과 같은 값이어야 합니다) */
 const ALLOWED_TIMES = buildAllowedTimes();
 
@@ -88,6 +91,29 @@ function validateTime(timeStr) {
   return timeStr;
 }
 
+/**
+ * 예약 번호를 만듭니다. 같은 사람이 여러 번 방문 예약을 할 수 있어서,
+ * 이름/이메일만으로는 구분이 안 됩니다 — 그래서 방문 날짜·시간까지 합쳐 만듭니다.
+ * (저장하지 않고 그때그때 계산합니다. 이름/이메일/날짜/시간에서 그대로 다시 만들어낼 수 있기 때문입니다.)
+ *
+ * 예) 2026-10-13 14:00 / junho122009@naver.com → "20261013-1400-junho122009"
+ */
+function buildReservationCode({ email, date, time }) {
+  const datePart = (date || '').replace(/-/g, '');
+  const timePart = (time || '').replace(':', '');
+  const emailLocal = (email || '')
+    .split('@')[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+    .slice(0, 10);
+
+  return `${datePart}-${timePart}-${emailLocal}`;
+}
+
+function withCode(reservation) {
+  return { ...reservation, code: buildReservationCode(reservation) };
+}
+
 export const reservationService = {
   async submit(body) {
     const name = requireField(
@@ -112,5 +138,32 @@ export const reservationService = {
     // ─────────────────────────────────────────────────────────────
 
     return { id: saved.id, date: saved.date, time: saved.time, createdAt: saved.createdAt };
+  },
+
+  /** 관리자 페이지 "예약 관리" 목록 — 방문 날짜·시간이 가까운 순서. */
+  async listForAdmin() {
+    const rows = await reservationRepository.findAll();
+
+    const items = rows
+      .map(withCode)
+      .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+
+    return { items, total: items.length };
+  },
+
+  /** 처리 상태를 바꿉니다. (접수 / 확정 / 변경 요청 / 취소) */
+  async updateStatus(id, status) {
+    if (!STATUSES.includes(status)) {
+      throw ApiError.badRequest(
+        '처리 상태는 접수/확정/변경 요청/취소 중에서만 선택할 수 있습니다.',
+        'STATUS_INVALID'
+      );
+    }
+
+    const updated = await reservationRepository.updateStatus(id, status);
+    if (!updated) {
+      throw ApiError.notFound('해당 예약을 찾을 수 없습니다.', 'RESERVATION_NOT_FOUND');
+    }
+    return withCode(updated);
   }
 };

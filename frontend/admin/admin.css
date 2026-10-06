@@ -13,6 +13,7 @@
    7. 버튼
    8. 토스트 알림
    9. 반응형
+   10. 예약 관리 (표)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -41,6 +42,12 @@
   --draft: #a78bfa;
   --dup: #38bdf8;
   --dup-soft: rgba(56, 189, 248, 0.1);
+
+  /* 예약 처리 상태 색 (접수/확정은 기존 색을 재사용, 변경 요청만 새로 추가) */
+  --status-received: #38bdf8;
+  --status-received-soft: rgba(56, 189, 248, 0.12);
+  --status-change: #f59e0b;
+  --status-change-soft: rgba(245, 158, 11, 0.12);
 
   --radius: 10px;
   --radius-sm: 7px;
@@ -701,5 +708,112 @@ h1, h2 {
 
   .toast {
     max-width: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. 예약 관리 (표)
+   -------------------------------------------------------------------------- */
+.rsv-layout {
+  padding: 20px 24px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.reservation-table-wrap {
+  overflow-x: auto;
+}
+
+.reservation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.reservation-table th,
+.reservation-table td {
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.reservation-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--bg-input);
+  white-space: nowrap;
+}
+
+.reservation-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.reservation-table td.col-purpose {
+  max-width: 320px;
+  white-space: pre-wrap;
+  color: var(--text-secondary);
+}
+
+.reservation-code {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.reservation-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.reservation-status-select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 7px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.reservation-status-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.badge-received {
+  background: var(--status-received-soft);
+  color: var(--status-received);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.badge-confirmed {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--success);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.badge-change {
+  background: var(--status-change-soft);
+  color: var(--status-change);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.badge-cancelled {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+@media (max-width: 900px) {
+  .rsv-layout {
+    padding: 16px;
   }
 }

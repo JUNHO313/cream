@@ -16,10 +16,12 @@
  *   -- 관리자 --
  *   POST   /api/auth/login | logout        로그인 / 로그아웃
  *   GET    /api/auth/status                로그인 상태 확인
- *   GET    /api/admin/projects             전체 목록 (초안 포함, 로그인 필요)
- *   POST   /api/admin/projects             새로 저장
- *   PUT    /api/admin/projects/:id         수정
- *   DELETE /api/admin/projects/:id         삭제
+ *   GET    /api/admin/projects              전체 목록 (초안 포함, 로그인 필요)
+ *   POST   /api/admin/projects              새로 저장
+ *   PUT    /api/admin/projects/:id          수정
+ *   DELETE /api/admin/projects/:id          삭제
+ *   GET    /api/admin/reservations          방문 예약 목록
+ *   PATCH  /api/admin/reservations/:id/status  처리 상태 변경
  */
 import { Router } from 'express';
 import { contentRouter } from './content.routes.js';

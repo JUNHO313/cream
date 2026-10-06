@@ -59,5 +59,19 @@ export const adminApi = {
   async mergeProjects(keepId, removeId) {
     const res = await apiClient.post('/admin/projects/merge', { keepId, removeId });
     return { project: res.data, message: res.message };
+  },
+
+  /* ------------------------------------------------------------- 방문 예약 */
+
+  /** 방문 예약 전체 목록 → { items, total } */
+  async listReservations() {
+    const res = await apiClient.get('/admin/reservations');
+    return res.data;
+  },
+
+  /** 처리 상태 변경 → { reservation, message } */
+  async updateReservationStatus(id, status) {
+    const res = await apiClient.patch(`/admin/reservations/${encodeURIComponent(id)}/status`, { status });
+    return { reservation: res.data, message: res.message };
   }
 };
